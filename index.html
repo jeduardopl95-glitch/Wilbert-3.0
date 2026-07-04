@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <!-- Evita zoom automático molesto en celulares al escribir en los inputs -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Corte de Caja Abarrotes</title>
+  
+  <!-- Tailwind CSS para diseño rápido y responsivo -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Librería jsPDF para el reporte en PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans pb-20">
+
+  <div class="max-w-2xl mx-auto space-y-6 pt-6 px-4">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-10 -mx-4 px-8 py-4 mb-6 rounded-b-2xl border-b border-slate-200">
+      <h1 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+        <span>🏪</span> Asistente de Corte de Caja
+      </h1>
+    </header>
+
+    <!-- PASO 1: INFO -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+      <h2 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2 flex items-center gap-2">
+        <span class="bg-blue-100 text-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm">1</span>
+        Información del Corte
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-medium text-gray-700">Fecha</label>
+          <input type="date" id="info-fecha" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-lg outline-none" />
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="text-sm font-medium text-gray-700">Sucursal</label>
+          <div class="relative">
+            <select id="info-sucursal" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-lg outline-none appearance-none focus:ring-2 focus:ring-blue-500">
+              <option value="" disabled selected>Selecciona una sucursal</option>
+              <option value="PLAYITA">PLAYITA</option>
+              <option value="DOS HERMANOS">DOS HERMANOS</option>
+              <option value="JUNIOR">JUNIOR</option>
+              <option value="CHETUMALITO">CHETUMALITO</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1 md:col-span-2">
+          <label class="text-sm font-medium text-gray-700">Nombre del Cajero (Opcional)</label>
+          <input type="text" id="info-cajero" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-lg outline-none placeholder-gray-400" placeholder="Tu nombre" />
+        </div>
+      </div>
+    </section>
+
+    <!-- PASO 2: TARJETAS -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+      <h2 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2 flex items-center gap-2">
+        <span class="bg-blue-100 text-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm">2</span>
+        Validación de Tarjetas
+      </h2>
+      
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Total en Tickets (Punto de Venta)</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col gap-1">
+              <label class="text-sm font-medium text-gray-700">Ticket Mañana</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
+                <input type="number" id="tarjetas-ticketManana" inputMode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none" placeholder="0.00" />
+              </div>
+            </div>
+            <div class="flex flex-col gap-1">
+              <label class="text-sm font-medium text-gray-700">Ticket Tarde</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
+                <input type="number" id="tarjetas-ticketTarde" inputMode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none" placeholder="0.00" />
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 text-right text-sm text-gray-600">
+            Suma Tickets: <strong id="lbl-suma-tickets" class="text-gray-800">$0.00</strong>
+          </div>
+        </div>
+
+        <div class="border-t pt-4">
+          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Total en Terminales Bancarias</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+            <div class="flex flex-col gap-1">
+              <label class="text-sm font-medium text-gray-700">Terminal Santander</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
+                <input type="number" id="tarjetas-santander" inputMode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none" placeholder="0.00" />
+              </div>
+            </div>
+          </div>
+          
+          <!-- Contenedor Terminales Extra -->
+          <div id="container-terminales-extra" class="space-y-3"></div>
+          
+          <button id="btn-add-terminal" class="text-blue-600 font-medium text-sm flex items-center gap-1 hover:text-blue-700 py-2">
+            ➕ Agregar otra terminal
+          </button>
+
+          <div class="mt-2 text-right text-sm text-gray-600">
+            Suma Terminales: <strong id="lbl-suma-terminales" class="text-gray-800">$0.00</strong>
+          </div>
+        </div>
+
+        <!-- Validación Tarjetas (Diferencia) -->
+        <div id="wrapper-validaseg" class="p-4 rounded-xl flex flex-col gap-2 bg-green-50 text-green-800 border border-green-200">
+          <div class="flex justify-between items-center font-bold">
+            <span>Diferencia de Tarjetas:</span>
+            <span id="lbl-diferencia-tarjetas" class="text-lg">$0.00</span>
+          </div>
+          <div id="wrapper-observacion" class="mt-2 flex-col gap-2 hidden">
+            <div class="flex gap-2 items-center text-sm font-semibold text-red-700">
+              ⚠️ Hay una diferencia. Justifica el motivo:
+            </div>
+            <textarea id="tarjetas-observacion" class="w-full bg-white border border-red-300 rounded-lg p-3 outline-none text-gray-800 mt-1" placeholder="Ej. Se cobró por error en efectivo un ticket de tarjeta..." rows="2"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PASO 3: EFECTIVO ESPERADO -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+      <h2 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2 flex items-center gap-2">
+        <span class="bg-blue-100 text-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm">3</span>
+        Datos del Efectivo
+      </h2>
+
+      <div class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="flex flex-col gap-1">
+            <label class="text-sm font-medium text-gray-700">Ventas en Efectivo</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
+              <input type="number" id="efectivo-ventas" inputMode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none" placeholder="0.00" />
+            </div>
+          </div>
+          <div class="flex flex-col gap-1">
+            <label class="text-sm font-medium text-gray-700">(+) Entradas Efectivo</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
+              <input type="number" id="efectivo-entradas" inputMode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none" placeholder="0.00" />
+            </div>
+          </div>
+          <div class="md:col-span-2 flex flex-col gap-1">
+            <label class="text-sm font-medium text-gray-700">(-) Salidas Efectivo</label>
+            <div class="relative">
+              <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
+              <input type="number" id="efectivo-salidas" inputMode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none" placeholder="0.00" />
+            </div>
+          </div>
+        </div>
+
+        <div class="border-t pt-4">
+          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">(-) Tickets de Consumo Interno</h3>
+          <!-- Contenedor Consumos -->
+          <div id="container-consumos" class="space-y-3"></div>
+          
+          <button id="btn-add-consumo" class="text-blue-600 font-medium text-sm flex items-center gap-1 hover:text-blue-700 py-2">
+            ➕ Agregar ticket de consumo
+          </button>
+        </div>
+
+        <!-- Cálculo paso a paso -->
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-4">
+          <h4 class="text-blue-800 font-bold mb-2">Cálculo del Efectivo Esperado:</h4>
+          <ul class="text-sm space-y-1 text-blue-900 font-medium font-mono">
+            <li class="flex justify-between"><span>Ventas + Entradas:</span> <span id="lbl-ventas-entradas">$0.00</span></li>
+            <li class="flex justify-between text-red-600"><span>- Salidas:</span> <span id="lbl-txt-salidas">$0.00</span></li>
+            <li class="flex justify-between text-red-600 border-b border-blue-200 pb-1"><span>- Consumos:</span> <span id="lbl-txt-consumos">$0.00</span></li>
+            <li class="flex justify-between pt-1 text-base font-bold"><span>EFECTIVO ESPERADO:</span> <span id="lbl-efectivo-esperado">$0.00</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PASO 4: CONTEO FÍSICO -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+      <h2 class="text-lg font-bold text-slate-800 mb-2 border-b pb-2 flex items-center gap-2">
+        <span class="bg-blue-100 text-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm">4</span>
+        Conteo Físico
+      </h2>
+      <p class="text-sm text-gray-500 mb-5">Ingresa la <strong class="text-gray-700">cantidad de piezas</strong> de cada denominación de billete.</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- BILLETES -->
+        <div>
+          <h3 class="font-bold text-gray-700 mb-3 flex justify-between">
+            Billetes <span id="lbl-subtotal-billetes" class="text-blue-600">$0.00</span>
+          </h3>
+          <div class="space-y-2">
+            <!-- Fila de billete -->
+            <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
+              <div class="w-16 text-right font-semibold text-gray-600">$1,000</div>
+              <div class="flex-1">
+                <input type="number" id="conteo-b1000" inputMode="numeric" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="1000" />
+              </div>
+              <div class="w-24 text-right font-bold text-gray-800" id="sub-b1000">$0.00</div>
+            </div>
+            <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
+              <div class="w-16 text-right font-semibold text-gray-600">$500</div>
+              <div class="flex-1">
+                <input type="number" id="conteo-b500" inputMode="numeric" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="500" />
+              </div>
+              <div class="w-24 text-right font-bold text-gray-800" id="sub-b500">$0.00</div>
+            </div>
+            <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
+              <div class="w-16 text-right font-semibold text-gray-600">$200</div>
+              <div class="flex-1">
+                <input type="number" id="conteo-b200" inputMode="numeric" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="200" />
+              </div>
+              <div class="w-24 text-right font-bold text-gray-800" id="sub-b200">$0.00</div>
+            </div>
+            <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
+              <div class="w-16 text-right font-semibold text-gray-600">$100</div>
+              <div class="flex-1">
+                <input type="number" id="conteo-b100" inputMode="numeric" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="100" />
+              </div>
+              <div class="w-24 text-right font-bold text-gray-800" id="sub-b100">$0.00</div>
+            </div>
+            <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
+              <div class="w-16 text-right font-semibold text-gray-600">$50</div>
+              <div class="flex-1">
+                <input type="number" id="conteo-b50" inputMode="numeric" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="50" />
+              </div>
+              <div class="w-24 text-right font-bold text-gray-800" id="sub-b50">$0.00</div>
+            </div>
+            <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
+              <div class="w-16 text-right font-semibold text-gray-600">$20</div>
+              <div class="flex-1">
+                <input type="number" id="conteo-b20" inputMode="numeric" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="20" />
+              </div>
+              <div class="w-24 text-right font-bold text-gray-800" id="sub-b20">$0.00</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MONEDAS & USD -->
+        <div>
+          <h3 class="font-bold text-gray-700 mb-3 flex justify-between">
+            Monedas <span id="lbl-subtotal-monedas" class="text-blue-600">$0.00</span>
+          </h3>
+          <div class="space-y-2 mb-6">
+            <div class="flex flex-col gap-1 w-full">
+              <label class="text-sm font-medium text-gray-600">Monto total de monedas sumadas</label>
+              <div class="relative">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
+                <input type="number" id="conteo-totalMonedas" inputMode="decimal" class="w-full bg-white border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none focus:ring-2 focus:ring-blue-500 transition-all" placeholder="0.00" />
+              </div>
+            </div>
+          </div>
+
+          <h3 class="font-bold text-gray-700 mt-6 mb-3 flex justify-between">
+            Dólares (a $15 MXN) <span id="lbl-subtotal-usd" class="text-blue-600">$0.00</span>
+          </h3>
+          <div class="space-y-2">
+            <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
+              <div class="w-16 text-right font-semibold text-gray-600">$ USD</div>
+              <div class="flex-1">
+                <input type="number" id="conteo-usd" inputMode="numeric" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" />
+              </div>
+              <div class="w-24 text-right font-bold text-gray-800" id="sub-usd">$0.00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 bg-gray-800 text-white rounded-xl flex justify-between items-center">
+        <span class="font-bold">Total Físico en Caja:</span>
+        <span id="lbl-total-fisico" class="text-2xl font-black">$0.00</span>
+      </div>
+    </section>
+
+    <!-- RESULTADO FINAL -->
+    <section class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+      <div class="p-6">
+        <h2 class="text-center text-gray-500 font-bold tracking-widest uppercase mb-6">Resultado del Corte</h2>
+        
+        <div class="flex justify-between items-center mb-2 px-2">
+          <span class="text-gray-600 font-medium">Efectivo Esperado</span>
+          <span id="lbl-res-esperado" class="font-bold text-gray-800">$0.00</span>
+        </div>
+        <div class="flex justify-between items-center mb-6 px-2">
+          <span class="text-gray-600 font-medium">Efectivo Físico</span>
+          <span id="lbl-res-fisico" class="font-bold text-gray-800">$0.00</span>
+        </div>
+
+        <!-- Alerta de cuadre dinámico -->
+        <div id="wrapper-cuadre-alert" class="p-6 rounded-2xl text-center border-2 bg-green-50 border-green-500 text-green-700">
+          <div id="lbl-estatus-titulo" class="text-sm font-bold uppercase tracking-wider mb-1">CAJA EXACTA 🎉</div>
+          <div id="lbl-estatus-monto" class="text-4xl font-black mb-2">$0.00</div>
+          <div id="lbl-estatus-sub" class="text-sm opacity-80">Todo cuadra a la perfección.</div>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 p-6 border-t">
+        <button id="btn-generar-pdf" class="w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-md bg-[#25D366] text-white hover:bg-[#128C7E]">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/><path d="M16.5 15.5c-.3.4-.8.7-1.4.8-.5.1-1-.1-1.6-.3-.6-.2-1.3-.5-2.2-1.1-.9-.6-1.7-1.4-2.3-2.2-.6-.8-.8-1.5-.9-2.1-.1-.6 0-1.1.2-1.5.3-.5.7-.9 1.2-1.2.3-.2.7-.1 1 .2l1.2 1.8c.2.3.2.7.1 1l-.5.7c-.2.2-.2.5-.1.8.3.5.7 1 1.1 1.4.4.4.9.8 1.4 1.1.3.1.6.1.8-.1l.7-.5c.3-.2.7-.2 1 .1l1.8 1.2c.3.2.4.6.2.9z"/></svg>
+          <span id="lbl-btn-texto">Enviar PDF por WhatsApp</span>
+        </button>
+        <p class="text-center text-xs text-gray-400 mt-3">
+          Al generar el PDF, podrás compartirlo directamente a tus contactos por WhatsApp.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // --- Lógica del Negocio ---
+    let terminalesExtra = [];
+    let ticketsConsumo = [];
+
+    // Cargar fecha de hoy por defecto
+    document.getElementById('info-fecha').value = new Date().toISOString().split('T')[0];
+
+    // Formatear Moneda
+    function formatMXN(val) {
+      return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(val);
+    }
+
+    function parseNum(id) {
+      const val = parseFloat(document.getElementById(id).value);
+      return isNaN(val) ? 0 : val;
+    }
+
+    // Calcular todo en tiempo real
+    function calcular() {
+      // 1. Tickets
+      const ticketManana = parseNum('tarjetas-ticketManana');
+      const ticketTarde = parseNum('tarjetas-ticketTarde');
+      const totalTickets = ticketManana + ticketTarde;
+      document.getElementById('lbl-suma-tickets').innerText = formatMXN(totalTickets);
+
+      // 2. Terminales
+      const santander = parseNum('tarjetas-santander');
+      let totalExtraTerminales = 0;
+      terminalesExtra.forEach(t => {
+        const input = document.getElementById(`extra-term-${t.id}`);
+        if (input) {
+          totalExtraTerminales += parseFloat(input.value) || 0;
+        }
+      });
+      const totalTerminales = santander + totalExtraTerminales;
+      document.getElementById('lbl-suma-terminales').innerText = formatMXN(totalTerminales);
+
+      // 3. Diferencia de Tarjetas
+      const difTarjetas = totalTickets - totalTerminales;
+      const lblDifTarjetas = document.getElementById('lbl-diferencia-tarjetas');
+      const wrapValidaSeg = document.getElementById('wrapper-validaseg');
+      const wrapObs = document.getElementById('wrapper-observacion');
+
+      lblDifTarjetas.innerText = formatMXN(difTarjetas);
+
+      if (difTarjetas === 0) {
+        wrapValidaSeg.className = "p-4 rounded-xl flex flex-col gap-2 bg-green-50 text-green-800 border border-green-200";
+        wrapObs.classList.add('hidden');
+      } else {
+        wrapValidaSeg.className = "p-4 rounded-xl flex flex-col gap-2 bg-red-50 text-red-800 border border-red-200 animate-pulse-once";
+        wrapObs.classList.remove('hidden');
+      }
+
+      // 4. Efectivo Esperado
+      const ventas = parseNum('efectivo-ventas');
+      const entradas = parseNum('efectivo-entradas');
+      const salidas = parseNum('efectivo-salidas');
+
+      let totalConsumos = 0;
+      ticketsConsumo.forEach(c => {
+        const input = document.getElementById(`extra-cons-${c.id}`);
+        if (input) {
+          totalConsumos += parseFloat(input.value) || 0;
+        }
+      });
+
+      const totalVentasEntradas = ventas + entradas;
+      const efectivoEsperado = totalVentasEntradas - salidas - totalConsumos;
+
+      document.getElementById('lbl-ventas-entradas').innerText = formatMXN(totalVentasEntradas);
+      document.getElementById('lbl-txt-salidas').innerText = formatMXN(salidas);
+      document.getElementById('lbl-txt-consumos').innerText = formatMXN(totalConsumos);
+      document.getElementById('lbl-efectivo-esperado').innerText = formatMXN(efectivoEsperado);
+      document.getElementById('lbl-res-esperado').innerText = formatMXN(efectivoEsperado);
+
+      // 5. Conteo Físico
+      let totalBilletes = 0;
+      document.querySelectorAll('.conteo-billete').forEach(input => {
+        const mult = parseInt(input.getAttribute('data-mult'));
+        const pzas = parseInt(input.value) || 0;
+        const sub = pzas * mult;
+        totalBilletes += sub;
+        
+        const key = input.id.replace('conteo-', 'sub-');
+        document.getElementById(key).innerText = formatMXN(sub);
+      });
+      document.getElementById('lbl-subtotal-billetes').innerText = formatMXN(totalBilletes);
+
+      const totalMonedas = parseNum('conteo-totalMonedas');
+      document.getElementById('lbl-subtotal-monedas').innerText = formatMXN(totalMonedas);
+
+      const pzasUsd = parseNum('conteo-usd');
+      const subtotalUsd = pzasUsd * 15;
+      document.getElementById('sub-usd').innerText = formatMXN(subtotalUsd);
+      document.getElementById('lbl-subtotal-usd').innerText = formatMXN(subtotalUsd);
+
+      const totalFisico = totalBilletes + totalMonedas + subtotalUsd;
+      document.getElementById('lbl-total-fisico').innerText = formatMXN(totalFisico);
+      document.getElementById('lbl-res-fisico').innerText = formatMXN(totalFisico);
+
+      // 6. Resultado Final & Semáforo
+      const difFinal = totalFisico - efectivoEsperado;
+      const wrapCuadreAlert = document.getElementById('wrapper-cuadre-alert');
+      const lblEstatusTitulo = document.getElementById('lbl-estatus-titulo');
+      const lblEstatusMonto = document.getElementById('lbl-estatus-monto');
+      const lblEstatusSub = document.getElementById('lbl-estatus-sub');
+
+      lblEstatusMonto.innerText = formatMXN(Math.abs(difFinal));
+
+      if (difFinal === 0) {
+        wrapCuadreAlert.className = "p-6 rounded-2xl text-center border-2 bg-green-50 border-green-500 text-green-700";
+        lblEstatusTitulo.innerText = "CAJA EXACTA 🎉";
+        lblEstatusSub.innerText = "Todo cuadra a la perfección.";
+      } else if (difFinal > 0) {
+        wrapCuadreAlert.className = "p-6 rounded-2xl text-center border-2 bg-blue-50 border-blue-500 text-blue-700";
+        lblEstatusTitulo.innerText = "SOBRANTE DE CAJA";
+        lblEstatusSub.innerText = "Hay más dinero en físico de lo reportado.";
+      } else {
+        wrapCuadreAlert.className = "p-6 rounded-2xl text-center border-2 bg-red-50 border-red-500 text-red-700";
+        lblEstatusTitulo.innerText = "FALTANTE DE CAJA";
+        lblEstatusSub.innerText = "Falta dinero en físico según el sistema.";
+      }
+    }
+
+    // --- Dynamic DOM Elements Generation ---
+
+    // Agregar terminales adicionales
+    document.getElementById('btn-add-terminal').addEventListener('click', () => {
+      const id = Date.now();
+      terminalesExtra.push({ id });
+
+      const termDiv = document.createElement('div');
+      termDiv.id = `term-block-${id}`;
+      termDiv.className = "flex gap-2 items-end bg-gray-50 p-3 rounded-xl border border-gray-100 animate-pulse-once";
+      termDiv.innerHTML = `
+        <div class="flex-1 flex flex-col gap-1">
+          <label class="text-xs font-medium text-gray-600">Nombre</label>
+          <input type="text" id="name-term-${id}" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 outline-none text-sm" placeholder="Ej. Banamex" />
+        </div>
+        <div class="flex-1 flex flex-col gap-1 relative">
+          <label class="text-xs font-medium text-gray-600">Monto</label>
+          <div class="relative">
+             <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 font-semibold text-sm">$</span>
+             <input type="number" id="extra-term-${id}" class="extra-terminal-input w-full bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 outline-none" placeholder="0.00" />
+          </div>
+        </div>
+        <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 mb-[2px]" onclick="removeTerminal(${id})">
+          🗑️
+        </button>
+      `;
+
+      document.getElementById('container-terminales-extra').appendChild(termDiv);
+
+      // Evento de escucha para cálculos en vivo
+      document.getElementById(`extra-term-${id}`).addEventListener('input', calcular);
+      document.getElementById(`name-term-${id}`).addEventListener('input', calcular);
+    });
+
+    function removeTerminal(id) {
+      const el = document.getElementById(`term-block-${id}`);
+      if (el) el.remove();
+      terminalesExtra = terminalesExtra.filter(t => t.id !== id);
+      calcular();
+    }
+
+    // Agregar consumo de tickets
+    document.getElementById('btn-add-consumo').addEventListener('click', () => {
+      const id = Date.now();
+      ticketsConsumo.push({ id });
+
+      const consDiv = document.createElement('div');
+      consDiv.id = `cons-block-${id}`;
+      consDiv.className = "flex gap-2 items-end bg-gray-50 p-3 rounded-xl border border-gray-100 animate-pulse-once";
+      consDiv.innerHTML = `
+        <div class="flex-1 flex flex-col gap-1">
+          <input type="text" id="desc-cons-${id}" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 outline-none text-sm" placeholder="Descripción (Opcional)" />
+        </div>
+        <div class="w-32 flex flex-col gap-1 relative">
+          <div class="relative">
+             <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 font-semibold text-sm">$</span>
+             <input type="number" id="extra-cons-${id}" class="extra-consumo-input w-full bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 outline-none" placeholder="Monto" />
+          </div>
+        </div>
+        <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 mb-[2px]" onclick="removeConsumo(${id})">
+          🗑️
+        </button>
+      `;
+
+      document.getElementById('container-consumos').appendChild(consDiv);
+
+      document.getElementById(`extra-cons-${id}`).addEventListener('input', calcular);
+      document.getElementById(`desc-cons-${id}`).addEventListener('input', calcular);
+    });
+
+    function removeConsumo(id) {
+      const el = document.getElementById(`cons-block-${id}`);
+      if (el) el.remove();
+      ticketsConsumo = ticketsConsumo.filter(c => c.id !== id);
+      calcular();
+    }
+
+    // --- PDF Sharing & Download ---
+    async function generarYCompartirPDF() {
+      const btnText = document.getElementById('lbl-btn-texto');
+      btnText.innerText = "Generando PDF...";
+
+      const fecha = document.getElementById('info-fecha').value;
+      const sucursal = document.getElementById('info-sucursal').value || 'Sin Sucursal';
+      const cajero = document.getElementById('info-cajero').value || 'No especificado';
+
+      const ticketManana = parseNum('tarjetas-ticketManana');
+      const ticketTarde = parseNum('tarjetas-ticketTarde');
+      const totalTickets = ticketManana + ticketTarde;
+
+      const santander = parseNum('tarjetas-santander');
+      let extraTermsText = '';
+      let totalExtraTerminales = 0;
+      terminalesExtra.forEach(t => {
+        const input = document.getElementById(`extra-term-${t.id}`);
+        const nameInput = document.getElementById(`name-term-${t.id}`);
+        const nombre = (nameInput && nameInput.value) ? nameInput.value : 'Extra';
+        const monto = input ? parseFloat(input.value) || 0 : 0;
+        if (monto > 0) {
+          extraTermsText += `\n(+) ${nombre}: ${formatMXN(monto)}`;
+          totalExtraTerminales += monto;
+        }
+      });
+      const totalTerminales = santander + totalExtraTerminales;
+      const difTarjetas = totalTickets - totalTerminales;
+      const observacion = document.getElementById('tarjetas-observacion').value;
+
+      const ventas = parseNum('efectivo-ventas');
+      const entradas = parseNum('efectivo-entradas');
+      const salidas = parseNum('efectivo-salidas');
+
+      let totalConsumos = 0;
+      let consumosText = '';
+      ticketsConsumo.forEach(c => {
+        const input = document.getElementById(`extra-cons-${c.id}`);
+        const descInput = document.getElementById(`desc-cons-${c.id}`);
+        const desc = (descInput && descInput.value) ? descInput.value : 'Consumo Interno';
+        const monto = input ? parseFloat(input.value) || 0 : 0;
+        if (monto > 0) {
+          consumosText += `\n(-) ${desc}: ${formatMXN(monto)}`;
+          totalConsumos += monto;
+        }
+      });
+
+      const totalVentasEntradas = ventas + entradas;
+      const efectivoEsperado = totalVentasEntradas - salidas - totalConsumos;
+
+      let bText = '';
+      let totalBilletes = 0;
+      document.querySelectorAll('.conteo-billete').forEach(input => {
+        const mult = parseInt(input.getAttribute('data-mult'));
+        const pzas = parseInt(input.value) || 0;
+        const sub = pzas * mult;
+        if (pzas > 0) {
+          bText += `\n- Billetes de $${mult}: ${pzas} pzas (${formatMXN(sub)})`;
+          totalBilletes += sub;
+        }
+      });
+
+      const totalMonedas = parseNum('conteo-totalMonedas');
+      const pzasUsd = parseNum('conteo-usd');
+      const subtotalUsd = pzasUsd * 15;
+      const totalFisico = totalBilletes + totalMonedas + subtotalUsd;
+      const difFinal = totalFisico - efectivoEsperado;
+      const estatus = difFinal === 0 ? 'Caja Exacta' : difFinal > 0 ? 'Sobrante' : 'Faltante';
+
+      const texto = `=== CORTE DE CAJA ===
+Fecha: ${fecha}
+Sucursal: ${sucursal}
+Cajero: ${cajero}
+
+[ 1. VALIDACIÓN DE TARJETAS ]
+Tickets de Venta: ${formatMXN(totalTickets)} (Mañana: ${formatMXN(ticketManana)} / Tarde: ${formatMXN(ticketTarde)})
+Terminales: ${formatMXN(totalTerminales)} (Santander: ${formatMXN(santander)}${extraTermsText})
+Diferencia: ${formatMXN(difTarjetas)}
+${difTarjetas !== 0 ? `Observación: ${observacion}\n` : ''}
+[ 2. FLUJO DE EFECTIVO ]
+Ventas Efectivo: ${formatMXN(ventas)}
+(+) Entradas: ${formatMXN(entradas)}
+(-) Salidas: ${formatMXN(salidas)}${consumosText}
+= EFECTIVO ESPERADO: ${formatMXN(efectivoEsperado)}
+
+[ 3. CONTEO FÍSICO ]${bText}
+- Total Monedas: ${formatMXN(totalMonedas)}
+- Dólares: ${pzasUsd} USD a $15 MXN (${formatMXN(subtotalUsd)})
+= TOTAL FÍSICO: ${formatMXN(totalFisico)}
+
+[ 4. RESULTADO FINAL ]
+Efectivo Esperado: ${formatMXN(efectivoEsperado)}
+Efectivo Físico: ${formatMXN(totalFisico)}
+DIFERENCIA: ${formatMXN(difFinal)}
+ESTATUS: ${estatus}
+`;
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      
+      doc.setFontSize(16);
+      doc.setFont(undefined, 'bold');
+      doc.text("Resumen de Corte de Caja", 10, 20);
+      
+      doc.setFontSize(10);
+      doc.setFont("courier", 'normal');
+      const lines = doc.splitTextToSize(texto, 180);
+      doc.text(lines, 10, 30);
+      
+      const fileName = `Corte_${sucursal}_${fecha}.pdf`;
+      const pdfBlob = doc.output('blob');
+      const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
+
+      // Detectar si el dispositivo permite compartir nativamente (Celulares)
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: `Corte de Caja - ${sucursal}`,
+            text: `Adjunto reporte de corte de caja de la sucursal ${sucursal}.`
+          });
+        } catch (err) {
+          console.error('Error al compartir', err);
+          // Si el usuario cancela o hay un bloqueo, descargamos como plan B
+          doc.save(fileName);
+        }
+      } else {
+        // Computadoras o navegadores sin soporte Web Share: Descargar directamente
+        doc.save(fileName);
+        alert("PDF descargado en tu equipo. Ahora puedes enviarlo como archivo adjunto por WhatsApp.");
+      }
+
+      btnText.innerText = "Enviar PDF por WhatsApp";
+    }
+
+    // --- Event Listeners Globales ---
+    document.querySelectorAll('input, select').forEach(elem => {
+      elem.addEventListener('input', calcular);
+    });
+
+    document.getElementById('btn-generar-pdf').addEventListener('click', generarYCompartirPDF);
+
+    // Inicializar cálculos al cargar la página
+    calcular();
+  </script>
+
+</body>
+</html>
