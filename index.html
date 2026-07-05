@@ -158,6 +158,7 @@
           </div>
         </div>
 
+        <!-- SECCIÓN: TICKETS DE CONSUMO -->
         <div class="border-t pt-4">
           <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">(-) Tickets de Consumo Interno</h3>
           <!-- Contenedor Consumos -->
@@ -168,14 +169,28 @@
           </button>
         </div>
 
+        <!-- SECCIÓN: AJUSTES (Suman o Restan) -->
+        <div class="border-t pt-4">
+          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">⚙️ Ajustes Especiales de Caja</h3>
+          <p class="text-xs text-gray-500 mb-3">Úsalo para devoluciones, o si un cobro de tarjeta se registró como efectivo, etc.</p>
+          
+          <!-- Contenedor Ajustes -->
+          <div id="container-ajustes" class="space-y-3"></div>
+          
+          <button id="btn-add-ajuste" class="text-blue-600 font-medium text-sm flex items-center gap-1 hover:text-blue-700 py-2">
+            ⚙️ Agregar ajuste a caja
+          </button>
+        </div>
+
         <!-- Cálculo paso a paso -->
         <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-4">
           <h4 class="text-blue-800 font-bold mb-2">Cálculo del Efectivo Esperado:</h4>
           <ul class="text-sm space-y-1 text-blue-900 font-medium font-mono">
             <li class="flex justify-between"><span>Ventas + Entradas:</span> <span id="lbl-ventas-entradas">$0.00</span></li>
             <li class="flex justify-between text-red-600"><span>- Salidas:</span> <span id="lbl-txt-salidas">$0.00</span></li>
-            <li class="flex justify-between text-red-600 border-b border-blue-200 pb-1"><span>- Consumos:</span> <span id="lbl-txt-consumos">$0.00</span></li>
-            <li class="flex justify-between pt-1 text-base font-bold"><span>EFECTIVO ESPERADO:</span> <span id="lbl-efectivo-esperado">$0.00</span></li>
+            <li class="flex justify-between text-red-600"><span>- Consumos:</span> <span id="lbl-txt-consumos">$0.00</span></li>
+            <li class="flex justify-between text-blue-700"><span>(+/-) Ajustes Totales:</span> <span id="lbl-txt-ajustes">$0.00</span></li>
+            <li class="flex justify-between pt-1 text-base font-bold border-t border-blue-200"><span>EFECTIVO ESPERADO:</span> <span id="lbl-efectivo-esperado">$0.00</span></li>
           </ul>
         </div>
       </div>
@@ -200,42 +215,42 @@
             <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
               <div class="w-16 text-right font-semibold text-gray-600">$1,000</div>
               <div class="flex-1">
-                <input type="number" id="conteo-b1000" inputMode="numeric" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="1000" />
+                <input type="number" id="conteo-b1000" inputmode="numeric" pattern="[0-9]*" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="1000" />
               </div>
               <div class="w-24 text-right font-bold text-gray-800" id="sub-b1000">$0.00</div>
             </div>
             <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
               <div class="w-16 text-right font-semibold text-gray-600">$500</div>
               <div class="flex-1">
-                <input type="number" id="conteo-b500" inputMode="numeric" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="500" />
+                <input type="number" id="conteo-b500" inputmode="numeric" pattern="[0-9]*" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="500" />
               </div>
               <div class="w-24 text-right font-bold text-gray-800" id="sub-b500">$0.00</div>
             </div>
             <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
               <div class="w-16 text-right font-semibold text-gray-600">$200</div>
               <div class="flex-1">
-                <input type="number" id="conteo-b200" inputMode="numeric" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="200" />
+                <input type="number" id="conteo-b200" inputmode="numeric" pattern="[0-9]*" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="200" />
               </div>
               <div class="w-24 text-right font-bold text-gray-800" id="sub-b200">$0.00</div>
             </div>
             <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
               <div class="w-16 text-right font-semibold text-gray-600">$100</div>
               <div class="flex-1">
-                <input type="number" id="conteo-b100" inputMode="numeric" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="100" />
+                <input type="number" id="conteo-b100" inputmode="numeric" pattern="[0-9]*" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="100" />
               </div>
               <div class="w-24 text-right font-bold text-gray-800" id="sub-b100">$0.00</div>
             </div>
             <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
               <div class="w-16 text-right font-semibold text-gray-600">$50</div>
               <div class="flex-1">
-                <input type="number" id="conteo-b50" inputMode="numeric" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="50" />
+                <input type="number" id="conteo-b50" inputmode="numeric" pattern="[0-9]*" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="50" />
               </div>
               <div class="w-24 text-right font-bold text-gray-800" id="sub-b50">$0.00</div>
             </div>
             <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
               <div class="w-16 text-right font-semibold text-gray-600">$20</div>
               <div class="flex-1">
-                <input type="number" id="conteo-b20" inputMode="numeric" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="20" />
+                <input type="number" id="conteo-b20" inputmode="numeric" pattern="[0-9]*" class="conteo-billete w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" data-mult="20" />
               </div>
               <div class="w-24 text-right font-bold text-gray-800" id="sub-b20">$0.00</div>
             </div>
@@ -252,19 +267,28 @@
               <label class="text-sm font-medium text-gray-600">Monto total de monedas sumadas</label>
               <div class="relative">
                 <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
-                <input type="number" id="conteo-totalMonedas" inputMode="decimal" class="w-full bg-white border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none focus:ring-2 focus:ring-blue-500 transition-all" placeholder="0.00" />
+                <input type="number" id="conteo-totalMonedas" inputmode="decimal" class="w-full bg-white border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none focus:ring-2 focus:ring-blue-500 transition-all" placeholder="0.00" />
               </div>
             </div>
           </div>
 
-          <h3 class="font-bold text-gray-700 mt-6 mb-3 flex justify-between">
-            Dólares (a $15 MXN) <span id="lbl-subtotal-usd" class="text-blue-600">$0.00</span>
+          <h3 class="font-bold text-gray-700 mt-6 mb-3 flex justify-between items-center">
+            <!-- TIPO DE CAMBIO EDITABLE -->
+            <div class="flex items-center gap-2">
+              Dólares
+              <div class="flex items-center bg-white border border-gray-200 rounded-lg px-2 py-1 text-sm font-normal shadow-sm">
+                <span class="text-gray-500 mr-1">$</span>
+                <input type="number" id="usd-rate" value="15" inputmode="decimal" class="w-12 outline-none text-center font-bold text-gray-700 bg-transparent" />
+                <span class="text-gray-500 ml-1">MXN</span>
+              </div>
+            </div>
+            <span id="lbl-subtotal-usd" class="text-blue-600">$0.00</span>
           </h3>
           <div class="space-y-2">
             <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
               <div class="w-16 text-right font-semibold text-gray-600">$ USD</div>
               <div class="flex-1">
-                <input type="number" id="conteo-usd" inputMode="numeric" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" />
+                <input type="number" id="conteo-usd" inputmode="numeric" pattern="[0-9]*" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-center text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="Pzas" />
               </div>
               <div class="w-24 text-right font-bold text-gray-800" id="sub-usd">$0.00</div>
             </div>
@@ -272,9 +296,22 @@
         </div>
       </div>
 
-      <div class="mt-6 p-4 bg-gray-800 text-white rounded-xl flex justify-between items-center">
+      <!-- SECCIÓN NUEVA: APARTADOS PARA SIGUIENTE TURNO -->
+      <div class="border-t pt-6 mt-6">
+        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">📦 Apartados / Dinero en Caja (Siguiente Turno)</h3>
+        <p class="text-xs text-gray-500 mb-3">Úsalo para registrar dinero físico que dejas en caja (pago a proveedores, fondo, etc).</p>
+        
+        <!-- Contenedor Apartados -->
+        <div id="container-apartados" class="space-y-3"></div>
+        
+        <button id="btn-add-apartado" class="text-blue-600 font-medium text-sm flex items-center gap-1 hover:text-blue-700 py-2">
+          ➕ Agregar apartado
+        </button>
+      </div>
+
+      <div class="mt-6 p-4 bg-gray-800 text-white rounded-xl flex justify-between items-center shadow-lg">
         <span class="font-bold">Total Físico en Caja:</span>
-        <span id="lbl-total-fisico" class="text-2xl font-black">$0.00</span>
+        <span id="lbl-total-fisico" class="text-2xl font-black text-green-400">$0.00</span>
       </div>
     </section>
 
@@ -288,7 +325,7 @@
           <span id="lbl-res-esperado" class="font-bold text-gray-800">$0.00</span>
         </div>
         <div class="flex justify-between items-center mb-6 px-2">
-          <span class="text-gray-600 font-medium">Efectivo Físico</span>
+          <span class="text-gray-600 font-medium">Efectivo Físico Total</span>
           <span id="lbl-res-fisico" class="font-bold text-gray-800">$0.00</span>
         </div>
 
@@ -316,6 +353,8 @@
     // --- Lógica del Negocio ---
     let terminalesExtra = [];
     let ticketsConsumo = [];
+    let ajustesExtra = []; 
+    let apartadosExtra = []; // Arreglo para el dinero dejado en caja
 
     // Cargar fecha de hoy por defecto
     document.getElementById('info-fecha').value = new Date().toISOString().split('T')[0];
@@ -326,7 +365,9 @@
     }
 
     function parseNum(id) {
-      const val = parseFloat(document.getElementById(id).value);
+      const el = document.getElementById(id);
+      if (!el) return 0;
+      const val = parseFloat(el.value);
       return isNaN(val) ? 0 : val;
     }
 
@@ -371,6 +412,7 @@
       const entradas = parseNum('efectivo-entradas');
       const salidas = parseNum('efectivo-salidas');
 
+      // Sumar tickets de consumo
       let totalConsumos = 0;
       ticketsConsumo.forEach(c => {
         const input = document.getElementById(`extra-cons-${c.id}`);
@@ -379,12 +421,39 @@
         }
       });
 
+      // Sumar/Restar Ajustes Especiales de caja
+      let totalAjustesNeto = 0;
+      ajustesExtra.forEach(a => {
+        const selectTipo = document.getElementById(`ajuste-tipo-${a.id}`);
+        const inputMonto = document.getElementById(`ajuste-monto-${a.id}`);
+        if (selectTipo && inputMonto) {
+          const tipo = selectTipo.value; 
+          const monto = parseFloat(inputMonto.value) || 0;
+          if (tipo === "sumar") {
+            totalAjustesNeto += monto;
+          } else {
+            totalAjustesNeto -= monto;
+          }
+        }
+      });
+
       const totalVentasEntradas = ventas + entradas;
-      const efectivoEsperado = totalVentasEntradas - salidas - totalConsumos;
+      const efectivoEsperado = totalVentasEntradas - salidas - totalConsumos + totalAjustesNeto;
 
       document.getElementById('lbl-ventas-entradas').innerText = formatMXN(totalVentasEntradas);
       document.getElementById('lbl-txt-salidas').innerText = formatMXN(salidas);
       document.getElementById('lbl-txt-consumos').innerText = formatMXN(totalConsumos);
+      
+      const lblAjustes = document.getElementById('lbl-txt-ajustes');
+      lblAjustes.innerText = (totalAjustesNeto >= 0 ? "+" : "") + formatMXN(totalAjustesNeto);
+      if (totalAjustesNeto < 0) {
+        lblAjustes.className = "text-red-600";
+      } else if (totalAjustesNeto > 0) {
+        lblAjustes.className = "text-green-600 font-bold";
+      } else {
+        lblAjustes.className = "text-blue-900";
+      }
+
       document.getElementById('lbl-efectivo-esperado').innerText = formatMXN(efectivoEsperado);
       document.getElementById('lbl-res-esperado').innerText = formatMXN(efectivoEsperado);
 
@@ -404,12 +473,23 @@
       const totalMonedas = parseNum('conteo-totalMonedas');
       document.getElementById('lbl-subtotal-monedas').innerText = formatMXN(totalMonedas);
 
+      // Dólares con tipo de cambio dinámico
+      const usdRate = parseNum('usd-rate') || 15; // Valor por defecto si lo borran
       const pzasUsd = parseNum('conteo-usd');
-      const subtotalUsd = pzasUsd * 15;
+      const subtotalUsd = pzasUsd * usdRate;
       document.getElementById('sub-usd').innerText = formatMXN(subtotalUsd);
       document.getElementById('lbl-subtotal-usd').innerText = formatMXN(subtotalUsd);
 
-      const totalFisico = totalBilletes + totalMonedas + subtotalUsd;
+      // Dinero Apartado (Fondo, proveedores, etc)
+      let totalApartados = 0;
+      apartadosExtra.forEach(a => {
+        const input = document.getElementById(`apartado-monto-${a.id}`);
+        if (input) {
+          totalApartados += parseFloat(input.value) || 0;
+        }
+      });
+
+      const totalFisico = totalBilletes + totalMonedas + subtotalUsd + totalApartados;
       document.getElementById('lbl-total-fisico').innerText = formatMXN(totalFisico);
       document.getElementById('lbl-res-fisico').innerText = formatMXN(totalFisico);
 
@@ -456,7 +536,7 @@
           <label class="text-xs font-medium text-gray-600">Monto</label>
           <div class="relative">
              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 font-semibold text-sm">$</span>
-             <input type="number" id="extra-term-${id}" class="extra-terminal-input w-full bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 outline-none" placeholder="0.00" />
+             <input type="number" id="extra-term-${id}" inputmode="decimal" class="extra-terminal-input w-full bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 outline-none" placeholder="0.00" />
           </div>
         </div>
         <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 mb-[2px]" onclick="removeTerminal(${id})">
@@ -465,8 +545,6 @@
       `;
 
       document.getElementById('container-terminales-extra').appendChild(termDiv);
-
-      // Evento de escucha para cálculos en vivo
       document.getElementById(`extra-term-${id}`).addEventListener('input', calcular);
       document.getElementById(`name-term-${id}`).addEventListener('input', calcular);
     });
@@ -493,7 +571,7 @@
         <div class="w-32 flex flex-col gap-1 relative">
           <div class="relative">
              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 font-semibold text-sm">$</span>
-             <input type="number" id="extra-cons-${id}" class="extra-consumo-input w-full bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 outline-none" placeholder="Monto" />
+             <input type="number" id="extra-cons-${id}" inputmode="decimal" class="extra-consumo-input w-full bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 outline-none" placeholder="Monto" />
           </div>
         </div>
         <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 mb-[2px]" onclick="removeConsumo(${id})">
@@ -502,7 +580,6 @@
       `;
 
       document.getElementById('container-consumos').appendChild(consDiv);
-
       document.getElementById(`extra-cons-${id}`).addEventListener('input', calcular);
       document.getElementById(`desc-cons-${id}`).addEventListener('input', calcular);
     });
@@ -511,6 +588,88 @@
       const el = document.getElementById(`cons-block-${id}`);
       if (el) el.remove();
       ticketsConsumo = ticketsConsumo.filter(c => c.id !== id);
+      calcular();
+    }
+
+    // AGREGAR AJUSTE DE CAJA DINÁMICO (+/-)
+    document.getElementById('btn-add-ajuste').addEventListener('click', () => {
+      const id = Date.now();
+      ajustesExtra.push({ id });
+
+      const ajusteDiv = document.createElement('div');
+      ajusteDiv.id = `ajuste-block-${id}`;
+      ajusteDiv.className = "flex flex-col sm:flex-row gap-2 items-stretch sm:items-end bg-slate-50 p-3 rounded-xl border border-slate-200 animate-pulse-once";
+      ajusteDiv.innerHTML = `
+        <div class="w-full sm:w-28 flex flex-col gap-1">
+          <label class="text-xs font-semibold text-gray-600">Efecto</label>
+          <select id="ajuste-tipo-${id}" class="w-full bg-white border border-gray-300 rounded-lg px-2 py-2 text-sm outline-none font-bold text-gray-700">
+            <option value="restar" selected>(-) Restar</option>
+            <option value="sumar">(+) Sumar</option>
+          </select>
+        </div>
+        <div class="flex-1 flex flex-col gap-1">
+          <label class="text-xs font-semibold text-gray-600">Motivo del Ajuste</label>
+          <input type="text" id="ajuste-motivo-${id}" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 outline-none text-sm" placeholder="Ej. Tarjeta cobrada como efectivo" />
+        </div>
+        <div class="w-full sm:w-32 flex flex-col gap-1 relative">
+          <label class="text-xs font-semibold text-gray-600">Monto</label>
+          <div class="relative">
+             <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 font-semibold text-sm">$</span>
+             <input type="number" id="ajuste-monto-${id}" inputmode="decimal" class="w-full bg-white border border-gray-300 rounded-lg pl-6 pr-2 py-2 outline-none text-sm" placeholder="Monto" />
+          </div>
+        </div>
+        <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 flex items-center justify-center self-end h-[38px] sm:h-auto" onclick="removeAjuste(${id})">
+          🗑️
+        </button>
+      `;
+
+      document.getElementById('container-ajustes').appendChild(ajusteDiv);
+      document.getElementById(`ajuste-tipo-${id}`).addEventListener('change', calcular);
+      document.getElementById(`ajuste-monto-${id}`).addEventListener('input', calcular);
+      document.getElementById(`ajuste-motivo-${id}`).addEventListener('input', calcular);
+    });
+
+    function removeAjuste(id) {
+      const el = document.getElementById(`ajuste-block-${id}`);
+      if (el) el.remove();
+      ajustesExtra = ajustesExtra.filter(a => a.id !== id);
+      calcular();
+    }
+
+    // AGREGAR DINERO APARTADO AL CONTEO FÍSICO
+    document.getElementById('btn-add-apartado').addEventListener('click', () => {
+      const id = Date.now();
+      apartadosExtra.push({ id });
+
+      const apartadoDiv = document.createElement('div');
+      apartadoDiv.id = `apartado-block-${id}`;
+      apartadoDiv.className = "flex gap-2 items-end bg-gray-50 p-3 rounded-xl border border-gray-200 animate-pulse-once";
+      apartadoDiv.innerHTML = `
+        <div class="flex-1 flex flex-col gap-1">
+          <label class="text-xs font-medium text-gray-600">Motivo del Dinero Apartado</label>
+          <input type="text" id="apartado-motivo-${id}" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 outline-none text-sm" placeholder="Ej. Pago a proveedores / Fondo" />
+        </div>
+        <div class="w-32 flex flex-col gap-1 relative">
+          <label class="text-xs font-medium text-gray-600">Monto</label>
+          <div class="relative">
+             <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 font-semibold text-sm">$</span>
+             <input type="number" id="apartado-monto-${id}" inputmode="decimal" class="w-full bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 outline-none" placeholder="Monto" />
+          </div>
+        </div>
+        <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 mb-[2px]" onclick="removeApartado(${id})">
+          🗑️
+        </button>
+      `;
+
+      document.getElementById('container-apartados').appendChild(apartadoDiv);
+      document.getElementById(`apartado-monto-${id}`).addEventListener('input', calcular);
+      document.getElementById(`apartado-motivo-${id}`).addEventListener('input', calcular);
+    });
+
+    function removeApartado(id) {
+      const el = document.getElementById(`apartado-block-${id}`);
+      if (el) el.remove();
+      apartadosExtra = apartadosExtra.filter(a => a.id !== id);
       calcular();
     }
 
@@ -561,9 +720,33 @@
         }
       });
 
-      const totalVentasEntradas = ventas + entradas;
-      const efectivoEsperado = totalVentasEntradas - salidas - totalConsumos;
+      // Recopilar información de ajustes para el PDF
+      let totalAjustesNeto = 0;
+      let ajustesText = '';
+      ajustesExtra.forEach(a => {
+        const selectTipo = document.getElementById(`ajuste-tipo-${a.id}`);
+        const inputMonto = document.getElementById(`ajuste-monto-${a.id}`);
+        const inputMotivo = document.getElementById(`ajuste-motivo-${a.id}`);
+        
+        const tipo = selectTipo ? selectTipo.value : 'restar';
+        const monto = inputMonto ? parseFloat(inputMonto.value) || 0 : 0;
+        const motivo = (inputMotivo && inputMotivo.value) ? inputMotivo.value : 'Sin motivo registrado';
+        
+        if (monto > 0) {
+          const signo = tipo === "sumar" ? "(+)" : "(-)";
+          ajustesText += `\n${signo} Ajuste: ${motivo} (${formatMXN(monto)})`;
+          if (tipo === "sumar") {
+            totalAjustesNeto += monto;
+          } else {
+            totalAjustesNeto -= monto;
+          }
+        }
+      });
 
+      const totalVentasEntradas = ventas + entradas;
+      const efectivoEsperado = totalVentasEntradas - salidas - totalConsumos + totalAjustesNeto;
+
+      // CONTEO FÍSICO PARA PDF
       let bText = '';
       let totalBilletes = 0;
       document.querySelectorAll('.conteo-billete').forEach(input => {
@@ -577,9 +760,30 @@
       });
 
       const totalMonedas = parseNum('conteo-totalMonedas');
+      const usdRate = parseNum('usd-rate') || 15;
       const pzasUsd = parseNum('conteo-usd');
-      const subtotalUsd = pzasUsd * 15;
-      const totalFisico = totalBilletes + totalMonedas + subtotalUsd;
+      const subtotalUsd = pzasUsd * usdRate;
+
+      // Recopilar información de apartados
+      let totalApartados = 0;
+      let apartadosText = '';
+      apartadosExtra.forEach(a => {
+        const inputMonto = document.getElementById(`apartado-monto-${a.id}`);
+        const inputMotivo = document.getElementById(`apartado-motivo-${a.id}`);
+        const monto = inputMonto ? parseFloat(inputMonto.value) || 0 : 0;
+        const motivo = (inputMotivo && inputMotivo.value) ? inputMotivo.value : 'Dinero apartado';
+        
+        if (monto > 0) {
+          apartadosText += `\n- ${motivo}: ${formatMXN(monto)}`;
+          totalApartados += monto;
+        }
+      });
+
+      if (totalApartados > 0) {
+        apartadosText = `\n[ APARTADOS / DINERO EN CAJA ]${apartadosText}`;
+      }
+
+      const totalFisico = totalBilletes + totalMonedas + subtotalUsd + totalApartados;
       const difFinal = totalFisico - efectivoEsperado;
       const estatus = difFinal === 0 ? 'Caja Exacta' : difFinal > 0 ? 'Sobrante' : 'Faltante';
 
@@ -597,11 +801,12 @@ ${difTarjetas !== 0 ? `Observación: ${observacion}\n` : ''}
 Ventas Efectivo: ${formatMXN(ventas)}
 (+) Entradas: ${formatMXN(entradas)}
 (-) Salidas: ${formatMXN(salidas)}${consumosText}
+Ajustes Especiales: ${formatMXN(totalAjustesNeto)}${ajustesText}
 = EFECTIVO ESPERADO: ${formatMXN(efectivoEsperado)}
 
 [ 3. CONTEO FÍSICO ]${bText}
 - Total Monedas: ${formatMXN(totalMonedas)}
-- Dólares: ${pzasUsd} USD a $15 MXN (${formatMXN(subtotalUsd)})
+- Dólares: ${pzasUsd} USD a $${usdRate} MXN (${formatMXN(subtotalUsd)})${apartadosText}
 = TOTAL FÍSICO: ${formatMXN(totalFisico)}
 
 [ 4. RESULTADO FINAL ]
