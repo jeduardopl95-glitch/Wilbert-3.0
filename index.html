@@ -2,27 +2,29 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <!-- Evita zoom automático molesto en celulares al escribir en los inputs -->
+  <!-- Evita zoom automático molesto en iPhone al tocar los inputs -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Corte de Caja Abarrotes</title>
+  <title>Asistente de Corte de Caja</title>
   
-  <!-- Tailwind CSS para diseño rápido y responsivo -->
+  <!-- Tailwind CSS para diseño moderno y responsivo -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Librería jsPDF para el reporte en PDF -->
+  <!-- Librería jsPDF estable para reportes PDF profesionales -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans pb-20">
 
+  <!-- Contenedor principal centrado -->
   <div class="max-w-2xl mx-auto space-y-6 pt-6 px-4">
-    <!-- Header -->
+    
+    <!-- Encabezado de la aplicación -->
     <header class="bg-white shadow-sm sticky top-0 z-10 -mx-4 px-8 py-4 mb-6 rounded-b-2xl border-b border-slate-200">
       <h1 class="text-xl font-bold text-slate-800 flex items-center gap-2">
         <span>🏪</span> Asistente de Corte de Caja
       </h1>
     </header>
 
-    <!-- PASO 1: INFO -->
+    <!-- PASO 1: INFORMACIÓN GENERAL -->
     <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
       <h2 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2 flex items-center gap-2">
         <span class="bg-blue-100 text-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm">1</span>
@@ -31,7 +33,7 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="flex flex-col gap-1">
           <label class="text-sm font-medium text-gray-700">Fecha</label>
-          <input type="date" id="info-fecha" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-lg outline-none" />
+          <input type="date" id="info-fecha" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
         <div class="flex flex-col gap-1">
           <label class="text-sm font-medium text-gray-700">Sucursal</label>
@@ -50,12 +52,12 @@
         </div>
         <div class="flex flex-col gap-1 md:col-span-2">
           <label class="text-sm font-medium text-gray-700">Nombre del Cajero (Opcional)</label>
-          <input type="text" id="info-cajero" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-lg outline-none placeholder-gray-400" placeholder="Tu nombre" />
+          <input type="text" id="info-cajero" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-lg outline-none placeholder-gray-400 focus:ring-2 focus:ring-blue-500" placeholder="Nombre completo" />
         </div>
       </div>
     </section>
 
-    <!-- PASO 2: TARJETAS -->
+    <!-- PASO 2: VALIDACIÓN DE TARJETAS -->
     <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
       <h2 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2 flex items-center gap-2">
         <span class="bg-blue-100 text-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm">2</span>
@@ -70,14 +72,14 @@
               <label class="text-sm font-medium text-gray-700">Ticket Mañana</label>
               <div class="relative">
                 <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
-                <input type="number" id="tarjetas-ticketManana" inputMode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none" placeholder="0.00" />
+                <input type="number" id="tarjetas-ticketManana" inputmode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="0.00" />
               </div>
             </div>
             <div class="flex flex-col gap-1">
               <label class="text-sm font-medium text-gray-700">Ticket Tarde</label>
               <div class="relative">
                 <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
-                <input type="number" id="tarjetas-ticketTarde" inputMode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none" placeholder="0.00" />
+                <input type="number" id="tarjetas-ticketTarde" inputmode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="0.00" />
               </div>
             </div>
           </div>
@@ -93,12 +95,12 @@
               <label class="text-sm font-medium text-gray-700">Terminal Santander</label>
               <div class="relative">
                 <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
-                <input type="number" id="tarjetas-santander" inputMode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none" placeholder="0.00" />
+                <input type="number" id="tarjetas-santander" inputmode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="0.00" />
               </div>
             </div>
           </div>
           
-          <!-- Contenedor Terminales Extra -->
+          <!-- Contenedor para terminales dinámicas adicionales -->
           <div id="container-terminales-extra" class="space-y-3"></div>
           
           <button id="btn-add-terminal" class="text-blue-600 font-medium text-sm flex items-center gap-1 hover:text-blue-700 py-2">
@@ -110,7 +112,7 @@
           </div>
         </div>
 
-        <!-- Validación Tarjetas (Diferencia) -->
+        <!-- Indicador dinámico de coincidencia de tarjetas -->
         <div id="wrapper-validaseg" class="p-4 rounded-xl flex flex-col gap-2 bg-green-50 text-green-800 border border-green-200">
           <div class="flex justify-between items-center font-bold">
             <span>Diferencia de Tarjetas:</span>
@@ -126,7 +128,7 @@
       </div>
     </section>
 
-    <!-- PASO 3: EFECTIVO ESPERADO -->
+    <!-- PASO 3: DATOS DEL EFECTIVO -->
     <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
       <h2 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2 flex items-center gap-2">
         <span class="bg-blue-100 text-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm">3</span>
@@ -139,29 +141,28 @@
             <label class="text-sm font-medium text-gray-700">Ventas en Efectivo</label>
             <div class="relative">
               <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
-              <input type="number" id="efectivo-ventas" inputMode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none" placeholder="0.00" />
+              <input type="number" id="efectivo-ventas" inputmode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="0.00" />
             </div>
           </div>
           <div class="flex flex-col gap-1">
             <label class="text-sm font-medium text-gray-700">(+) Entradas Efectivo</label>
             <div class="relative">
               <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
-              <input type="number" id="efectivo-entradas" inputMode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none" placeholder="0.00" />
+              <input type="number" id="efectivo-entradas" inputmode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="0.00" />
             </div>
           </div>
           <div class="md:col-span-2 flex flex-col gap-1">
             <label class="text-sm font-medium text-gray-700">(-) Salidas Efectivo</label>
             <div class="relative">
               <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-semibold">$</span>
-              <input type="number" id="efectivo-salidas" inputMode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none" placeholder="0.00" />
+              <input type="number" id="efectivo-salidas" inputmode="decimal" class="w-full bg-gray-50 border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg outline-none focus:ring-2 focus:ring-blue-500" placeholder="0.00" />
             </div>
           </div>
         </div>
 
-        <!-- SECCIÓN: TICKETS DE CONSUMO -->
+        <!-- TICKETS DE CONSUMO INTERNO -->
         <div class="border-t pt-4">
           <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">(-) Tickets de Consumo Interno</h3>
-          <!-- Contenedor Consumos -->
           <div id="container-consumos" class="space-y-3"></div>
           
           <button id="btn-add-consumo" class="text-blue-600 font-medium text-sm flex items-center gap-1 hover:text-blue-700 py-2">
@@ -169,12 +170,10 @@
           </button>
         </div>
 
-        <!-- SECCIÓN: AJUSTES (Suman o Restan) -->
+        <!-- AJUSTES ESPECIALES DE CAJA (+/-) -->
         <div class="border-t pt-4">
           <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">⚙️ Ajustes Especiales de Caja</h3>
-          <p class="text-xs text-gray-500 mb-3">Úsalo para devoluciones, o si un cobro de tarjeta se registró como efectivo, etc.</p>
-          
-          <!-- Contenedor Ajustes -->
+          <p class="text-xs text-gray-500 mb-3">Úsalo para devoluciones de clientes, o si cobraste con tarjeta y se marcó erróneamente como efectivo.</p>
           <div id="container-ajustes" class="space-y-3"></div>
           
           <button id="btn-add-ajuste" class="text-blue-600 font-medium text-sm flex items-center gap-1 hover:text-blue-700 py-2">
@@ -182,7 +181,7 @@
           </button>
         </div>
 
-        <!-- Cálculo paso a paso -->
+        <!-- Desglose matemático interactivo -->
         <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-4">
           <h4 class="text-blue-800 font-bold mb-2">Cálculo del Efectivo Esperado:</h4>
           <ul class="text-sm space-y-1 text-blue-900 font-medium font-mono">
@@ -202,16 +201,15 @@
         <span class="bg-blue-100 text-blue-600 rounded-full w-6 h-6 flex items-center justify-center text-sm">4</span>
         Conteo Físico
       </h2>
-      <p class="text-sm text-gray-500 mb-5">Ingresa la <strong class="text-gray-700">cantidad de piezas</strong> de cada denominación de billete.</p>
+      <p class="text-sm text-gray-500 mb-5">Ingresa la <strong class="text-gray-700">cantidad de piezas</strong> físicas que tienes de cada billete.</p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- BILLETES -->
+        <!-- SECCIÓN DE BILLETES -->
         <div>
           <h3 class="font-bold text-gray-700 mb-3 flex justify-between">
             Billetes <span id="lbl-subtotal-billetes" class="text-blue-600">$0.00</span>
           </h3>
           <div class="space-y-2">
-            <!-- Fila de billete -->
             <div class="flex items-center gap-3 bg-gray-50 p-2 rounded-xl border border-gray-100">
               <div class="w-16 text-right font-semibold text-gray-600">$1,000</div>
               <div class="flex-1">
@@ -257,7 +255,7 @@
           </div>
         </div>
 
-        <!-- MONEDAS & USD -->
+        <!-- SECCIÓN DE MONEDAS Y USD -->
         <div>
           <h3 class="font-bold text-gray-700 mb-3 flex justify-between">
             Monedas <span id="lbl-subtotal-monedas" class="text-blue-600">$0.00</span>
@@ -272,8 +270,8 @@
             </div>
           </div>
 
+          <!-- Tipo de cambio editable -->
           <h3 class="font-bold text-gray-700 mt-6 mb-3 flex justify-between items-center">
-            <!-- TIPO DE CAMBIO EDITABLE -->
             <div class="flex items-center gap-2">
               Dólares
               <div class="flex items-center bg-white border border-gray-200 rounded-lg px-2 py-1 text-sm font-normal shadow-sm">
@@ -296,12 +294,10 @@
         </div>
       </div>
 
-      <!-- SECCIÓN NUEVA: APARTADOS PARA SIGUIENTE TURNO -->
+      <!-- DINERO APARTADO (FONDO / PROVEEDORES) -->
       <div class="border-t pt-6 mt-6">
         <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">📦 Apartados / Dinero en Caja (Siguiente Turno)</h3>
-        <p class="text-xs text-gray-500 mb-3">Úsalo para registrar dinero físico que dejas en caja (pago a proveedores, fondo, etc).</p>
-        
-        <!-- Contenedor Apartados -->
+        <p class="text-xs text-gray-500 mb-3">Úsalo si dejas una suma física dentro del cajón reservada para pago a proveedores o caja chica del siguiente turno.</p>
         <div id="container-apartados" class="space-y-3"></div>
         
         <button id="btn-add-apartado" class="text-blue-600 font-medium text-sm flex items-center gap-1 hover:text-blue-700 py-2">
@@ -309,13 +305,14 @@
         </button>
       </div>
 
+      <!-- Total físico visual -->
       <div class="mt-6 p-4 bg-gray-800 text-white rounded-xl flex justify-between items-center shadow-lg">
         <span class="font-bold">Total Físico en Caja:</span>
         <span id="lbl-total-fisico" class="text-2xl font-black text-green-400">$0.00</span>
       </div>
     </section>
 
-    <!-- RESULTADO FINAL -->
+    <!-- RESULTADO FINAL Y ACCIONES -->
     <section class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
       <div class="p-6">
         <h2 class="text-center text-gray-500 font-bold tracking-widest uppercase mb-6">Resultado del Corte</h2>
@@ -329,7 +326,6 @@
           <span id="lbl-res-fisico" class="font-bold text-gray-800">$0.00</span>
         </div>
 
-        <!-- Alerta de cuadre dinámico -->
         <div id="wrapper-cuadre-alert" class="p-6 rounded-2xl text-center border-2 bg-green-50 border-green-500 text-green-700">
           <div id="lbl-estatus-titulo" class="text-sm font-bold uppercase tracking-wider mb-1">CAJA EXACTA 🎉</div>
           <div id="lbl-estatus-monto" class="text-4xl font-black mb-2">$0.00</div>
@@ -337,29 +333,30 @@
         </div>
       </div>
 
-      <div class="bg-gray-50 p-6 border-t">
-        <button id="btn-generar-pdf" class="w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-md bg-[#25D366] text-white hover:bg-[#128C7E]">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/><path d="M16.5 15.5c-.3.4-.8.7-1.4.8-.5.1-1-.1-1.6-.3-.6-.2-1.3-.5-2.2-1.1-.9-.6-1.7-1.4-2.3-2.2-.6-.8-.8-1.5-.9-2.1-.1-.6 0-1.1.2-1.5.3-.5.7-.9 1.2-1.2.3-.2.7-.1 1 .2l1.2 1.8c.2.3.2.7.1 1l-.5.7c-.2.2-.2.5-.1.8.3.5.7 1 1.1 1.4.4.4.9.8 1.4 1.1.3.1.6.1.8-.1l.7-.5c.3-.2.7-.2 1 .1l1.8 1.2c.3.2.4.6.2.9z"/></svg>
-          <span id="lbl-btn-texto">Enviar PDF por WhatsApp</span>
+      <!-- Botones de Acción independientes y claros -->
+      <div class="bg-gray-50 p-6 border-t flex flex-col gap-3">
+        <button id="btn-copiar-reporte" class="w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-md bg-blue-600 text-white hover:bg-blue-700">
+          📋 Copiar Reporte Detallado
         </button>
-        <p class="text-center text-xs text-gray-400 mt-3">
-          Al generar el PDF, podrás compartirlo directamente a tus contactos por WhatsApp.
+        <button id="btn-generar-pdf" class="w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-md bg-[#25D366] text-white hover:bg-[#128C7E]">
+          📄 Guardar y Enviar PDF
+        </button>
+        <p class="text-center text-xs text-gray-400 mt-2">
+          Ambos botones incluyen de forma dinámica únicamente los datos que hayas rellenado en la app.
         </p>
       </div>
     </section>
   </div>
 
   <script>
-    // --- Lógica del Negocio ---
     let terminalesExtra = [];
     let ticketsConsumo = [];
     let ajustesExtra = []; 
-    let apartadosExtra = []; // Arreglo para el dinero dejado en caja
+    let apartadosExtra = [];
 
-    // Cargar fecha de hoy por defecto
+    // Cargar fecha actual
     document.getElementById('info-fecha').value = new Date().toISOString().split('T')[0];
 
-    // Formatear Moneda
     function formatMXN(val) {
       return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(val);
     }
@@ -371,15 +368,15 @@
       return isNaN(val) ? 0 : val;
     }
 
-    // Calcular todo en tiempo real
+    // Procesa y recalcula todos los paneles en vivo
     function calcular() {
-      // 1. Tickets
+      // 1. Tickets tarjetas
       const ticketManana = parseNum('tarjetas-ticketManana');
       const ticketTarde = parseNum('tarjetas-ticketTarde');
       const totalTickets = ticketManana + ticketTarde;
       document.getElementById('lbl-suma-tickets').innerText = formatMXN(totalTickets);
 
-      // 2. Terminales
+      // 2. Terminales tarjetas
       const santander = parseNum('tarjetas-santander');
       let totalExtraTerminales = 0;
       terminalesExtra.forEach(t => {
@@ -407,12 +404,11 @@
         wrapObs.classList.remove('hidden');
       }
 
-      // 4. Efectivo Esperado
+      // 4. Efectivo esperado
       const ventas = parseNum('efectivo-ventas');
       const entradas = parseNum('efectivo-entradas');
       const salidas = parseNum('efectivo-salidas');
 
-      // Sumar tickets de consumo
       let totalConsumos = 0;
       ticketsConsumo.forEach(c => {
         const input = document.getElementById(`extra-cons-${c.id}`);
@@ -421,7 +417,6 @@
         }
       });
 
-      // Sumar/Restar Ajustes Especiales de caja
       let totalAjustesNeto = 0;
       ajustesExtra.forEach(a => {
         const selectTipo = document.getElementById(`ajuste-tipo-${a.id}`);
@@ -473,14 +468,12 @@
       const totalMonedas = parseNum('conteo-totalMonedas');
       document.getElementById('lbl-subtotal-monedas').innerText = formatMXN(totalMonedas);
 
-      // Dólares con tipo de cambio dinámico
-      const usdRate = parseNum('usd-rate') || 15; // Valor por defecto si lo borran
+      const usdRate = parseNum('usd-rate') || 15;
       const pzasUsd = parseNum('conteo-usd');
       const subtotalUsd = pzasUsd * usdRate;
       document.getElementById('sub-usd').innerText = formatMXN(subtotalUsd);
       document.getElementById('lbl-subtotal-usd').innerText = formatMXN(subtotalUsd);
 
-      // Dinero Apartado (Fondo, proveedores, etc)
       let totalApartados = 0;
       apartadosExtra.forEach(a => {
         const input = document.getElementById(`apartado-monto-${a.id}`);
@@ -493,7 +486,7 @@
       document.getElementById('lbl-total-fisico').innerText = formatMXN(totalFisico);
       document.getElementById('lbl-res-fisico').innerText = formatMXN(totalFisico);
 
-      // 6. Resultado Final & Semáforo
+      // 6. Diferencia final
       const difFinal = totalFisico - efectivoEsperado;
       const wrapCuadreAlert = document.getElementById('wrapper-cuadre-alert');
       const lblEstatusTitulo = document.getElementById('lbl-estatus-titulo');
@@ -517,9 +510,9 @@
       }
     }
 
-    // --- Dynamic DOM Elements Generation ---
-
-    // Agregar terminales adicionales
+    // --- STREAMING_CHUNK: Creando listeners dinámicos para formularios interactivos ---
+    
+    // Terminales Extra
     document.getElementById('btn-add-terminal').addEventListener('click', () => {
       const id = Date.now();
       terminalesExtra.push({ id });
@@ -530,18 +523,16 @@
       termDiv.innerHTML = `
         <div class="flex-1 flex flex-col gap-1">
           <label class="text-xs font-medium text-gray-600">Nombre</label>
-          <input type="text" id="name-term-${id}" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 outline-none text-sm" placeholder="Ej. Banamex" />
+          <input type="text" id="name-term-${id}" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 outline-none text-sm focus:ring-2 focus:ring-blue-500" placeholder="Ej. Banamex" />
         </div>
         <div class="flex-1 flex flex-col gap-1 relative">
           <label class="text-xs font-medium text-gray-600">Monto</label>
           <div class="relative">
              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 font-semibold text-sm">$</span>
-             <input type="number" id="extra-term-${id}" inputmode="decimal" class="extra-terminal-input w-full bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 outline-none" placeholder="0.00" />
+             <input type="number" id="extra-term-${id}" inputmode="decimal" class="extra-terminal-input w-full bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 outline-none focus:ring-2 focus:ring-blue-500" placeholder="0.00" />
           </div>
         </div>
-        <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 mb-[2px]" onclick="removeTerminal(${id})">
-          🗑️
-        </button>
+        <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 mb-[2px]" onclick="removeTerminal(${id})">🗑️</button>
       `;
 
       document.getElementById('container-terminales-extra').appendChild(termDiv);
@@ -556,7 +547,7 @@
       calcular();
     }
 
-    // Agregar consumo de tickets
+    // Consumos
     document.getElementById('btn-add-consumo').addEventListener('click', () => {
       const id = Date.now();
       ticketsConsumo.push({ id });
@@ -566,17 +557,15 @@
       consDiv.className = "flex gap-2 items-end bg-gray-50 p-3 rounded-xl border border-gray-100 animate-pulse-once";
       consDiv.innerHTML = `
         <div class="flex-1 flex flex-col gap-1">
-          <input type="text" id="desc-cons-${id}" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 outline-none text-sm" placeholder="Descripción (Opcional)" />
+          <input type="text" id="desc-cons-${id}" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 outline-none text-sm focus:ring-2 focus:ring-blue-500" placeholder="Descripción (Opcional)" />
         </div>
         <div class="w-32 flex flex-col gap-1 relative">
           <div class="relative">
              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 font-semibold text-sm">$</span>
-             <input type="number" id="extra-cons-${id}" inputmode="decimal" class="extra-consumo-input w-full bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 outline-none" placeholder="Monto" />
+             <input type="number" id="extra-cons-${id}" inputmode="decimal" class="extra-consumo-input w-full bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 outline-none focus:ring-2 focus:ring-blue-500" placeholder="Monto" />
           </div>
         </div>
-        <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 mb-[2px]" onclick="removeConsumo(${id})">
-          🗑️
-        </button>
+        <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 mb-[2px]" onclick="removeConsumo(${id})">🗑️</button>
       `;
 
       document.getElementById('container-consumos').appendChild(consDiv);
@@ -591,7 +580,7 @@
       calcular();
     }
 
-    // AGREGAR AJUSTE DE CAJA DINÁMICO (+/-)
+    // Ajustes
     document.getElementById('btn-add-ajuste').addEventListener('click', () => {
       const id = Date.now();
       ajustesExtra.push({ id });
@@ -609,18 +598,16 @@
         </div>
         <div class="flex-1 flex flex-col gap-1">
           <label class="text-xs font-semibold text-gray-600">Motivo del Ajuste</label>
-          <input type="text" id="ajuste-motivo-${id}" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 outline-none text-sm" placeholder="Ej. Tarjeta cobrada como efectivo" />
+          <input type="text" id="ajuste-motivo-${id}" class="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 outline-none text-sm focus:ring-2 focus:ring-blue-500" placeholder="Ej. Devolución de cliente" />
         </div>
         <div class="w-full sm:w-32 flex flex-col gap-1 relative">
           <label class="text-xs font-semibold text-gray-600">Monto</label>
           <div class="relative">
              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 font-semibold text-sm">$</span>
-             <input type="number" id="ajuste-monto-${id}" inputmode="decimal" class="w-full bg-white border border-gray-300 rounded-lg pl-6 pr-2 py-2 outline-none text-sm" placeholder="Monto" />
+             <input type="number" id="ajuste-monto-${id}" inputmode="decimal" class="w-full bg-white border border-gray-300 rounded-lg pl-6 pr-2 py-2 outline-none text-sm focus:ring-2 focus:ring-blue-500" placeholder="Monto" />
           </div>
         </div>
-        <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 flex items-center justify-center self-end h-[38px] sm:h-auto" onclick="removeAjuste(${id})">
-          🗑️
-        </button>
+        <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 flex items-center justify-center self-end h-[38px] sm:h-auto" onclick="removeAjuste(${id})">🗑️</button>
       `;
 
       document.getElementById('container-ajustes').appendChild(ajusteDiv);
@@ -636,7 +623,7 @@
       calcular();
     }
 
-    // AGREGAR DINERO APARTADO AL CONTEO FÍSICO
+    // Apartados
     document.getElementById('btn-add-apartado').addEventListener('click', () => {
       const id = Date.now();
       apartadosExtra.push({ id });
@@ -647,18 +634,16 @@
       apartadoDiv.innerHTML = `
         <div class="flex-1 flex flex-col gap-1">
           <label class="text-xs font-medium text-gray-600">Motivo del Dinero Apartado</label>
-          <input type="text" id="apartado-motivo-${id}" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 outline-none text-sm" placeholder="Ej. Pago a proveedores / Fondo" />
+          <input type="text" id="apartado-motivo-${id}" class="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 outline-none text-sm focus:ring-2 focus:ring-blue-500" placeholder="Ej. Pago a proveedores / Fondo" />
         </div>
         <div class="w-32 flex flex-col gap-1 relative">
           <label class="text-xs font-medium text-gray-600">Monto</label>
           <div class="relative">
              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 font-semibold text-sm">$</span>
-             <input type="number" id="apartado-monto-${id}" inputmode="decimal" class="w-full bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 outline-none" placeholder="Monto" />
+             <input type="number" id="apartado-monto-${id}" inputmode="decimal" class="w-full bg-white border border-gray-200 rounded-lg pl-6 pr-2 py-2 outline-none focus:ring-2 focus:ring-blue-500" placeholder="Monto" />
           </div>
         </div>
-        <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 mb-[2px]" onclick="removeApartado(${id})">
-          🗑️
-        </button>
+        <button class="bg-red-50 text-red-600 p-2 rounded-lg hover:bg-red-100 mb-[2px]" onclick="removeApartado(${id})">🗑️</button>
       `;
 
       document.getElementById('container-apartados').appendChild(apartadoDiv);
@@ -673,26 +658,30 @@
       calcular();
     }
 
-    // --- PDF Sharing & Download ---
-    async function generarYCompartirPDF() {
-      const btnText = document.getElementById('lbl-btn-texto');
-      btnText.innerText = "Generando PDF...";
-
-      const fecha = document.getElementById('info-fecha').value;
+    // --- STREAMING_CHUNK: Creando el motor del generador de texto de reportes inteligentes (solo lo relevante) ---
+    // Esta función genera de forma condicional un bloque estructurado de texto
+    function generarTextoReporte() {
       const sucursal = document.getElementById('info-sucursal').value || 'Sin Sucursal';
-      const cajero = document.getElementById('info-cajero').value || 'No especificado';
+      const fecha = document.getElementById('info-fecha').value;
+      const cajero = document.getElementById('info-cajero').value.trim() || 'No especificado';
 
+      let t = `=== CORTE DE CAJA ===\n`;
+      t += `Fecha: ${fecha}\n`;
+      t += `Sucursal: ${sucursal}\n`;
+      t += `Cajero: ${cajero}\n\n`;
+
+      // 1. Validación de Tarjetas (si se usó alguna)
       const ticketManana = parseNum('tarjetas-ticketManana');
       const ticketTarde = parseNum('tarjetas-ticketTarde');
       const totalTickets = ticketManana + ticketTarde;
-
       const santander = parseNum('tarjetas-santander');
+
       let extraTermsText = '';
       let totalExtraTerminales = 0;
-      terminalesExtra.forEach(t => {
-        const input = document.getElementById(`extra-term-${t.id}`);
-        const nameInput = document.getElementById(`name-term-${t.id}`);
-        const nombre = (nameInput && nameInput.value) ? nameInput.value : 'Extra';
+      terminalesExtra.forEach(term => {
+        const input = document.getElementById(`extra-term-${term.id}`);
+        const nameInput = document.getElementById(`name-term-${term.id}`);
+        const nombre = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : 'Terminal Extra';
         const monto = input ? parseFloat(input.value) || 0 : 0;
         if (monto > 0) {
           extraTermsText += `\n(+) ${nombre}: ${formatMXN(monto)}`;
@@ -700,29 +689,45 @@
         }
       });
       const totalTerminales = santander + totalExtraTerminales;
-      const difTarjetas = totalTickets - totalTerminales;
-      const observacion = document.getElementById('tarjetas-observacion').value;
 
+      if (totalTickets > 0 || totalTerminales > 0) {
+        t += `[ 1. VALIDACIÓN DE TARJETAS ]\n`;
+        if (ticketManana > 0) t += `- Ticket Mañana: ${formatMXN(ticketManana)}\n`;
+        if (ticketTarde > 0) t += `- Ticket Tarde: ${formatMXN(ticketTarde)}\n`;
+        t += `- Suma total tickets: ${formatMXN(totalTickets)}\n`;
+        if (santander > 0) t += `- Terminal Santander: ${formatMXN(santander)}\n`;
+        t += extraTermsText;
+        if (extraTermsText) t += `\n- Suma total terminales: ${formatMXN(totalTerminales)}\n`;
+        
+        const difTarjetas = totalTickets - totalTerminales;
+        t += `=> Diferencia Tarjetas: ${formatMXN(difTarjetas)}\n`;
+        const obs = document.getElementById('tarjetas-observacion').value.trim();
+        if (difTarjetas !== 0 && obs) {
+          t += `Justificación de Diferencia: ${obs}\n`;
+        }
+        t += `\n`;
+      }
+
+      // 2. Datos del Efectivo
       const ventas = parseNum('efectivo-ventas');
       const entradas = parseNum('efectivo-entradas');
       const salidas = parseNum('efectivo-salidas');
 
-      let totalConsumos = 0;
       let consumosText = '';
+      let totalConsumos = 0;
       ticketsConsumo.forEach(c => {
         const input = document.getElementById(`extra-cons-${c.id}`);
         const descInput = document.getElementById(`desc-cons-${c.id}`);
-        const desc = (descInput && descInput.value) ? descInput.value : 'Consumo Interno';
+        const desc = (descInput && descInput.value.trim()) ? descInput.value.trim() : 'Consumo Interno';
         const monto = input ? parseFloat(input.value) || 0 : 0;
         if (monto > 0) {
-          consumosText += `\n(-) ${desc}: ${formatMXN(monto)}`;
+          consumosText += `\n(-) Consumo (${desc}): ${formatMXN(monto)}`;
           totalConsumos += monto;
         }
       });
 
-      // Recopilar información de ajustes para el PDF
-      let totalAjustesNeto = 0;
       let ajustesText = '';
+      let totalAjustesNeto = 0;
       ajustesExtra.forEach(a => {
         const selectTipo = document.getElementById(`ajuste-tipo-${a.id}`);
         const inputMonto = document.getElementById(`ajuste-monto-${a.id}`);
@@ -730,11 +735,11 @@
         
         const tipo = selectTipo ? selectTipo.value : 'restar';
         const monto = inputMonto ? parseFloat(inputMonto.value) || 0 : 0;
-        const motivo = (inputMotivo && inputMotivo.value) ? inputMotivo.value : 'Sin motivo registrado';
+        const motivo = (inputMotivo && inputMotivo.value.trim()) ? inputMotivo.value.trim() : 'Ajuste';
         
         if (monto > 0) {
           const signo = tipo === "sumar" ? "(+)" : "(-)";
-          ajustesText += `\n${signo} Ajuste: ${motivo} (${formatMXN(monto)})`;
+          ajustesText += `\n${signo} Ajuste (${motivo}): ${formatMXN(monto)}`;
           if (tipo === "sumar") {
             totalAjustesNeto += monto;
           } else {
@@ -746,7 +751,17 @@
       const totalVentasEntradas = ventas + entradas;
       const efectivoEsperado = totalVentasEntradas - salidas - totalConsumos + totalAjustesNeto;
 
-      // CONTEO FÍSICO PARA PDF
+      if (ventas > 0 || entradas > 0 || salidas > 0 || totalConsumos > 0 || totalAjustesNeto !== 0) {
+        t += `[ 2. FLUJO DE EFECTIVO ]\n`;
+        if (ventas > 0) t += `- Ventas en Efectivo: ${formatMXN(ventas)}\n`;
+        if (entradas > 0) t += `- Entradas de Efectivo: ${formatMXN(entradas)}\n`;
+        if (salidas > 0) t += `- Salidas de Efectivo: ${formatMXN(salidas)}\n`;
+        t += consumosText;
+        t += ajustesText;
+        t += `\n= EFECTIVO ESPERADO EN CAJA: ${formatMXN(efectivoEsperado)}\n\n`;
+      }
+
+      // 3. Conteo Físico
       let bText = '';
       let totalBilletes = 0;
       document.querySelectorAll('.conteo-billete').forEach(input => {
@@ -764,104 +779,375 @@
       const pzasUsd = parseNum('conteo-usd');
       const subtotalUsd = pzasUsd * usdRate;
 
-      // Recopilar información de apartados
-      let totalApartados = 0;
       let apartadosText = '';
+      let totalApartados = 0;
       apartadosExtra.forEach(a => {
         const inputMonto = document.getElementById(`apartado-monto-${a.id}`);
         const inputMotivo = document.getElementById(`apartado-motivo-${a.id}`);
         const monto = inputMonto ? parseFloat(inputMonto.value) || 0 : 0;
-        const motivo = (inputMotivo && inputMotivo.value) ? inputMotivo.value : 'Dinero apartado';
+        const motivo = (inputMotivo && inputMotivo.value.trim()) ? inputMotivo.value.trim() : 'Apartado';
         
         if (monto > 0) {
-          apartadosText += `\n- ${motivo}: ${formatMXN(monto)}`;
+          apartadosText += `\n- Apartado (${motivo}): ${formatMXN(monto)}`;
           totalApartados += monto;
         }
       });
 
-      if (totalApartados > 0) {
-        apartadosText = `\n[ APARTADOS / DINERO EN CAJA ]${apartadosText}`;
-      }
-
       const totalFisico = totalBilletes + totalMonedas + subtotalUsd + totalApartados;
+
+      t += `[ 3. CONTEO FÍSICO DETALLADO ]`;
+      t += bText;
+      if (totalMonedas > 0) t += `\n- Monedas en total: ${formatMXN(totalMonedas)}`;
+      if (pzasUsd > 0) t += `\n- Dólares: ${pzasUsd} USD (Cambio a $${usdRate} MXN): ${formatMXN(subtotalUsd)}`;
+      t += apartadosText;
+      t += `\n= TOTAL FÍSICO DETECTADO: ${formatMXN(totalFisico)}\n\n`;
+
+      // 4. Resultado Final
       const difFinal = totalFisico - efectivoEsperado;
       const estatus = difFinal === 0 ? 'Caja Exacta' : difFinal > 0 ? 'Sobrante' : 'Faltante';
 
-      const texto = `=== CORTE DE CAJA ===
-Fecha: ${fecha}
-Sucursal: ${sucursal}
-Cajero: ${cajero}
+      t += `[ 4. RESULTADO DE CUADRE ]\n`;
+      t += `Efectivo Esperado: ${formatMXN(efectivoEsperado)}\n`;
+      t += `Efectivo Físico: ${formatMXN(totalFisico)}\n`;
+      t += `DIFERENCIA FINAL: ${formatMXN(difFinal)} (${estatus.toUpperCase()})`;
 
-[ 1. VALIDACIÓN DE TARJETAS ]
-Tickets de Venta: ${formatMXN(totalTickets)} (Mañana: ${formatMXN(ticketManana)} / Tarde: ${formatMXN(ticketTarde)})
-Terminales: ${formatMXN(totalTerminales)} (Santander: ${formatMXN(santander)}${extraTermsText})
-Diferencia: ${formatMXN(difTarjetas)}
-${difTarjetas !== 0 ? `Observación: ${observacion}\n` : ''}
-[ 2. FLUJO DE EFECTIVO ]
-Ventas Efectivo: ${formatMXN(ventas)}
-(+) Entradas: ${formatMXN(entradas)}
-(-) Salidas: ${formatMXN(salidas)}${consumosText}
-Ajustes Especiales: ${formatMXN(totalAjustesNeto)}${ajustesText}
-= EFECTIVO ESPERADO: ${formatMXN(efectivoEsperado)}
+      return t;
+    }
 
-[ 3. CONTEO FÍSICO ]${bText}
-- Total Monedas: ${formatMXN(totalMonedas)}
-- Dólares: ${pzasUsd} USD a $${usdRate} MXN (${formatMXN(subtotalUsd)})${apartadosText}
-= TOTAL FÍSICO: ${formatMXN(totalFisico)}
+    // --- STREAMING_CHUNK: Implementando la exportación rápida de texto plano ---
+    document.getElementById('btn-copiar-reporte').addEventListener('click', () => {
+      const texto = generarTextoReporte();
+      
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = texto;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      
+      try {
+        const copiado = document.execCommand('copy');
+        if (copiado) {
+          alert('¡Reporte copiado exitosamente al portapapeles!');
+        } else {
+          alert('No se pudo copiar automáticamente. Por favor cópialo manualmente.');
+        }
+      } catch (err) {
+        console.error('Error al intentar copiar', err);
+      }
+      document.body.removeChild(tempTextArea);
+    });
 
-[ 4. RESULTADO FINAL ]
-Efectivo Esperado: ${formatMXN(efectivoEsperado)}
-Efectivo Físico: ${formatMXN(totalFisico)}
-DIFERENCIA: ${formatMXN(difFinal)}
-ESTATUS: ${estatus}
-`;
-
+    // --- STREAMING_CHUNK: Diseñando el generador interactivo de PDF estético con banners y colores corporativos ---
+    // Esta función dibuja dinámicamente el PDF utilizando rectángulos, banners de sección y tipografía limpia
+    async function generarPDF() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       
-      doc.setFontSize(16);
-      doc.setFont(undefined, 'bold');
-      doc.text("Resumen de Corte de Caja", 10, 20);
+      const sucursal = document.getElementById('info-sucursal').value || 'Caja';
+      const fecha = document.getElementById('info-fecha').value;
+      const cajero = document.getElementById('info-cajero').value.trim() || 'No especificado';
+
+      // Dibujar banner principal
+      doc.setFillColor(30, 41, 59); // Slate-800
+      doc.rect(0, 0, 210, 40, 'F');
       
+      doc.setTextColor(255, 255, 255);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(18);
+      doc.text("CORTE DE CAJA DIARIO", 15, 18);
+      
+      doc.setFont("helvetica", "normal");
       doc.setFontSize(10);
-      doc.setFont("courier", 'normal');
-      const lines = doc.splitTextToSize(texto, 180);
-      doc.text(lines, 10, 30);
+      doc.text(`Sucursal: ${sucursal}  |  Fecha: ${fecha}`, 15, 26);
+      doc.text(`Cajero responsable: ${cajero}`, 15, 31);
+
+      let y = 52;
+
+      // Validador de fin de página
+      function asegurarEspacio(alturaNecesaria) {
+        if (y + alturaNecesaria > 280) {
+          doc.addPage();
+          y = 20;
+        }
+      }
+
+      function addSectionHeader(titulo) {
+        asegurarEspacio(15);
+        doc.setFillColor(241, 245, 249); // slate-100
+        doc.rect(15, y - 5, 180, 8, 'F');
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(10);
+        doc.setTextColor(30, 41, 59);
+        doc.text(titulo, 18, y + 1);
+        y += 10;
+      }
+
+      function addRow(label, value, isBold = false) {
+        asegurarEspacio(8);
+        doc.setFont("helvetica", isBold ? "bold" : "normal");
+        doc.setFontSize(9);
+        doc.setTextColor(51, 65, 85);
+        doc.text(label, 18, y);
+        doc.text(value, 192, y, { align: "right" });
+        y += 6;
+      }
+
+      // 1. Tarjetas
+      const ticketManana = parseNum('tarjetas-ticketManana');
+      const ticketTarde = parseNum('tarjetas-ticketTarde');
+      const totalTickets = ticketManana + ticketTarde;
+      const santander = parseNum('tarjetas-santander');
+
+      let extraTerms = [];
+      let totalExtraTerminales = 0;
+      terminalesExtra.forEach(term => {
+        const input = document.getElementById(`extra-term-${term.id}`);
+        const nameInput = document.getElementById(`name-term-${term.id}`);
+        const nombre = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : 'Terminal Extra';
+        const monto = input ? parseFloat(input.value) || 0 : 0;
+        if (monto > 0) {
+          extraTerms.push({ nombre, monto });
+          totalExtraTerminales += monto;
+        }
+      });
+      const totalTerminales = santander + totalExtraTerminales;
+      const difTarjetas = totalTickets - totalTerminales;
+
+      if (totalTickets > 0 || totalTerminales > 0) {
+        addSectionHeader("1. VALIDACIÓN DE COBROS CON TARJETA");
+        if (ticketManana > 0) addRow("Cobro Mañana (Tickets):", formatMXN(ticketManana));
+        if (ticketTarde > 0) addRow("Cobro Tarde (Tickets):", formatMXN(ticketTarde));
+        addRow("Suma total tickets sistema:", formatMXN(totalTickets), true);
+        
+        if (santander > 0) addRow("Terminal Santander física:", formatMXN(santander));
+        extraTerms.forEach(t => {
+          addRow(`Terminal ${t.nombre} física:`, formatMXN(t.monto));
+        });
+        if (extraTerms.length > 0) {
+          addRow("Suma total terminales físicas:", formatMXN(totalTerminales), true);
+        }
+        
+        // Mostrar la diferencia con color decorativo
+        asegurarEspacio(8);
+        doc.setFont("helvetica", "bold");
+        doc.text("Diferencia Tarjetas:", 18, y);
+        if (difTarjetas !== 0) {
+          doc.setTextColor(220, 38, 38); // rojo
+        } else {
+          doc.setTextColor(22, 163, 74); // verde
+        }
+        doc.text(formatMXN(difTarjetas), 192, y, { align: "right" });
+        doc.setTextColor(51, 65, 85);
+        y += 7;
+
+        const obs = document.getElementById('tarjetas-observacion').value.trim();
+        if (difTarjetas !== 0 && obs) {
+          asegurarEspacio(14);
+          doc.setFont("helvetica", "italic");
+          doc.setFontSize(8);
+          doc.setTextColor(100, 116, 139);
+          doc.text("Justificación de la diferencia:", 18, y);
+          y += 4;
+          const lineasObs = doc.splitTextToSize(obs, 174);
+          doc.text(lineasObs, 18, y);
+          y += (lineasObs.length * 4) + 2;
+        }
+        y += 3;
+      }
+
+      // 2. Flujo de Efectivo
+      const ventas = parseNum('efectivo-ventas');
+      const entradas = parseNum('efectivo-entradas');
+      const salidas = parseNum('efectivo-salidas');
+
+      let listConsumos = [];
+      let totalConsumos = 0;
+      ticketsConsumo.forEach(c => {
+        const input = document.getElementById(`extra-cons-${c.id}`);
+        const descInput = document.getElementById(`desc-cons-${c.id}`);
+        const desc = (descInput && descInput.value.trim()) ? descInput.value.trim() : 'Consumo Interno';
+        const monto = input ? parseFloat(input.value) || 0 : 0;
+        if (monto > 0) {
+          listConsumos.push({ desc, monto });
+          totalConsumos += monto;
+        }
+      });
+
+      let listAjustes = [];
+      let totalAjustesNeto = 0;
+      ajustesExtra.forEach(a => {
+        const selectTipo = document.getElementById(`ajuste-tipo-${a.id}`);
+        const inputMonto = document.getElementById(`ajuste-monto-${a.id}`);
+        const inputMotivo = document.getElementById(`ajuste-motivo-${a.id}`);
+        
+        const tipo = selectTipo ? selectTipo.value : 'restar';
+        const monto = inputMonto ? parseFloat(inputMonto.value) || 0 : 0;
+        const motivo = (inputMotivo && inputMotivo.value.trim()) ? inputMotivo.value.trim() : 'Ajuste';
+        
+        if (monto > 0) {
+          listAjustes.push({ tipo, monto, motivo });
+          if (tipo === "sumar") {
+            totalAjustesNeto += monto;
+          } else {
+            totalAjustesNeto -= monto;
+          }
+        }
+      });
+
+      const totalVentasEntradas = ventas + entradas;
+      const efectivoEsperado = totalVentasEntradas - salidas - totalConsumos + totalAjustesNeto;
+
+      if (ventas > 0 || entradas > 0 || salidas > 0 || listConsumos.length > 0 || listAjustes.length > 0) {
+        addSectionHeader("2. FLUJO DE EFECTIVO SISTEMA");
+        if (ventas > 0) addRow("Ventas Netas Efectivo:", formatMXN(ventas));
+        if (entradas > 0) addRow("(+) Entradas de Efectivo:", formatMXN(entradas));
+        if (salidas > 0) addRow("(-) Salidas de Efectivo:", formatMXN(salidas));
+        
+        listConsumos.forEach(c => {
+          addRow(`(-) Ticket Consumo [${c.desc}]:`, formatMXN(c.monto));
+        });
+
+        listAjustes.forEach(a => {
+          const sign = a.tipo === "sumar" ? "(+)" : "(-)";
+          addRow(`${sign} Ajuste de Caja [${a.motivo}]:`, formatMXN(a.monto));
+        });
+
+        addRow("EFECTIVO ESPERADO EN SISTEMA:", formatMXN(efectivoEsperado), true);
+        y += 4;
+      }
+
+      // 3. Conteo Físico
+      let billetesEntrados = [];
+      let totalBilletes = 0;
+      document.querySelectorAll('.conteo-billete').forEach(input => {
+        const mult = parseInt(input.getAttribute('data-mult'));
+        const pzas = parseInt(input.value) || 0;
+        const sub = pzas * mult;
+        if (pzas > 0) {
+          billetesEntrados.push({ mult, pzas, sub });
+          totalBilletes += sub;
+        }
+      });
+
+      const totalMonedas = parseNum('conteo-totalMonedas');
+      const usdRate = parseNum('usd-rate') || 15;
+      const pzasUsd = parseNum('conteo-usd');
+      const subtotalUsd = pzasUsd * usdRate;
+
+      let listApartados = [];
+      let totalApartados = 0;
+      apartadosExtra.forEach(a => {
+        const inputMonto = document.getElementById(`apartado-monto-${a.id}`);
+        const inputMotivo = document.getElementById(`apartado-motivo-${a.id}`);
+        const monto = inputMonto ? parseFloat(inputMonto.value) || 0 : 0;
+        const motivo = (inputMotivo && inputMotivo.value.trim()) ? inputMotivo.value.trim() : 'Apartado';
+        
+        if (monto > 0) {
+          listApartados.push({ motivo, monto });
+          totalApartados += monto;
+        }
+      });
+
+      const totalFisico = totalBilletes + totalMonedas + subtotalUsd + totalApartados;
+
+      if (totalFisico > 0) {
+        addSectionHeader("3. CONTEO DE EFECTIVO FÍSICO");
+        billetesEntrados.forEach(b => {
+          addRow(`Billetes de $${b.mult} (${b.pzas} pzas):`, formatMXN(b.sub));
+        });
+        if (totalMonedas > 0) {
+          addRow("Total en Monedas sueltas:", formatMXN(totalMonedas));
+        }
+        if (pzasUsd > 0) {
+          addRow(`Dólares (${pzasUsd} USD x $${usdRate} MXN):`, formatMXN(subtotalUsd));
+        }
+        listApartados.forEach(ap => {
+          addRow(`Apartado Siguiente Turno [${ap.motivo}]:`, formatMXN(ap.monto));
+        });
+        addRow("TOTAL FÍSICO DETECTADO EN CAJA:", formatMXN(totalFisico), true);
+        y += 4;
+      }
+
+      // 4. Panel de Estatus Final de Cuadre
+      const difFinal = totalFisico - efectivoEsperado;
+      let estatusTitulo = "CAJA EXACTA";
+      let estatusDesc = "El dinero físico coincide perfectamente con el saldo reportado.";
+      let rgbFill = [220, 252, 231]; // verde claro
+      let rgbText = [22, 101, 52]; // verde oscuro
+      let rgbBorder = [34, 197, 94]; // verde
+
+      if (difFinal > 0) {
+        estatusTitulo = "SOBRANTE DE CAJA";
+        estatusDesc = "Hay un excedente de dinero en caja que debe ser resguardado.";
+        rgbFill = [219, 234, 254]; // azul claro
+        rgbText = [30, 64, 175]; // azul oscuro
+        rgbBorder = [59, 130, 246]; // azul
+      } else if (difFinal < 0) {
+        estatusTitulo = "FALTANTE DE CAJA";
+        estatusDesc = "Falta efectivo para cubrir las operaciones reportadas.";
+        rgbFill = [254, 226, 226]; // rojo claro
+        rgbText = [153, 27, 27]; // rojo oscuro
+        rgbBorder = [239, 68, 68]; // rojo
+      }
+
+      asegurarEspacio(38);
+      y += 5;
       
+      // Dibujar caja de estatus decorativa
+      doc.setFillColor(rgbFill[0], rgbFill[1], rgbFill[2]);
+      doc.setDrawColor(rgbBorder[0], rgbBorder[1], rgbBorder[2]);
+      doc.setLineWidth(0.5);
+      doc.rect(15, y, 180, 28, 'FD');
+
+      doc.setTextColor(rgbText[0], rgbText[1], rgbText[2]);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(11);
+      doc.text(estatusTitulo, 20, y + 7);
+
+      doc.setFontSize(18);
+      doc.text(formatMXN(Math.abs(difFinal)), 190, y + 14, { align: "right" });
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.5);
+      doc.setTextColor(71, 85, 105);
+      const subLines = doc.splitTextToSize(estatusDesc, 110);
+      doc.text(subLines, 20, y + 14);
+
+      // Metadatos de balance final dentro de la caja de estatus
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(8);
+      doc.setTextColor(rgbText[0], rgbText[1], rgbText[2]);
+      doc.text(`Esperado: ${formatMXN(efectivoEsperado)}  |  Entregado: ${formatMXN(totalFisico)}`, 20, y + 23);
+
       const fileName = `Corte_${sucursal}_${fecha}.pdf`;
       const pdfBlob = doc.output('blob');
       const file = new File([pdfBlob], fileName, { type: 'application/pdf' });
 
-      // Detectar si el dispositivo permite compartir nativamente (Celulares)
+      // Compartir de forma nativa en iPhone / Android si es posible
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         try {
           await navigator.share({
             files: [file],
             title: `Corte de Caja - ${sucursal}`,
-            text: `Adjunto reporte de corte de caja de la sucursal ${sucursal}.`
+            text: `Adjunto reporte de corte de caja de la sucursal ${sucursal} del día ${fecha}.`
           });
         } catch (err) {
           console.error('Error al compartir', err);
-          // Si el usuario cancela o hay un bloqueo, descargamos como plan B
-          doc.save(fileName);
+          doc.save(fileName); // Fallback de descarga local
         }
       } else {
-        // Computadoras o navegadores sin soporte Web Share: Descargar directamente
         doc.save(fileName);
         alert("PDF descargado en tu equipo. Ahora puedes enviarlo como archivo adjunto por WhatsApp.");
       }
-
-      btnText.innerText = "Enviar PDF por WhatsApp";
     }
 
-    // --- Event Listeners Globales ---
+    document.getElementById('btn-generar-pdf').addEventListener('click', generarPDF);
+
+    // Adjuntar escuchas globales a todos los inputs
     document.querySelectorAll('input, select').forEach(elem => {
       elem.addEventListener('input', calcular);
     });
 
-    document.getElementById('btn-generar-pdf').addEventListener('click', generarYCompartirPDF);
-
-    // Inicializar cálculos al cargar la página
+    // Iniciar el cálculo inmediato en el primer arranque
     calcular();
   </script>
 
