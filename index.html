@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <!-- Evita zoom automático molesto en iPhone al tocar los inputs -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Corte de Caja">
   <title>Asistente de Corte de Caja</title>
   
   <!-- Tailwind CSS para diseño moderno y responsivo -->
@@ -19,9 +22,17 @@
     
     <!-- Encabezado de la aplicación -->
     <header class="bg-white shadow-sm sticky top-0 z-10 -mx-4 px-8 py-4 mb-6 rounded-b-2xl border-b border-slate-200">
-      <h1 class="text-xl font-bold text-slate-800 flex items-center gap-2">
-        <span>🏪</span> Asistente de Corte de Caja
-      </h1>
+      <div class="flex justify-between items-center">
+        <h1 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+          <span>🏪</span> Asistente de Corte de Caja
+        </h1>
+        <div class="flex items-center gap-3">
+          <span id="indicador-guardado" class="text-xs font-medium text-green-600 opacity-0 transition-opacity duration-300">Guardado ✓</span>
+          <button id="btn-limpiar" class="text-xs bg-red-50 text-red-600 px-3 py-1.5 rounded-lg font-semibold hover:bg-red-100 transition-colors">
+            Limpiar Todo
+          </button>
+        </div>
+      </div>
     </header>
 
     <!-- PASO 1: INFORMACIÓN GENERAL -->
@@ -354,6 +365,64 @@
     let ajustesExtra = []; 
     let apartadosExtra = [];
 
+    // --- FUNCIONES DE AUTOGUARDADO (OFFLINE Y RESPALDO) ---
+    function guardarBorrador() {
+      const data = {
+        fecha: document.getElementById('info-fecha').value,
+        sucursal: document.getElementById('info-sucursal').value,
+        cajero: document.getElementById('info-cajero').value,
+        tarjetas: {
+          tManana: document.getElementById('tarjetas-ticketManana').value,
+          tTarde: document.getElementById('tarjetas-ticketTarde').value,
+          santander: document.getElementById('tarjetas-santander').value,
+          obs: document.getElementById('tarjetas-observacion').value
+        },
+        terminalesExtra: terminalesExtra.map(t => ({
+          nombre: document.getElementById(`name-term-${t.id}`)?.value || '',
+          monto: document.getElementById(`extra-term-${t.id}`)?.value || ''
+        })),
+        efectivo: {
+          ventas: document.getElementById('efectivo-ventas').value,
+          entradas: document.getElementById('efectivo-entradas').value,
+          salidas: document.getElementById('efectivo-salidas').value
+        },
+        consumos: ticketsConsumo.map(c => ({
+          desc: document.getElementById(`desc-cons-${c.id}`)?.value || '',
+          monto: document.getElementById(`extra-cons-${c.id}`)?.value || ''
+        })),
+        ajustes: ajustesExtra.map(a => ({
+          tipo: document.getElementById(`ajuste-tipo-${a.id}`)?.value || 'restar',
+          motivo: document.getElementById(`ajuste-motivo-${a.id}`)?.value || '',
+          monto: document.getElementById(`ajuste-monto-${a.id}`)?.value || ''
+        })),
+        apartados: apartadosExtra.map(a => ({
+          motivo: document.getElementById(`apartado-motivo-${a.id}`)?.value || '',
+          monto: document.getElementById(`apartado-monto-${a.id}`)?.value || ''
+        })),
+        conteo: Array.from(document.querySelectorAll('.conteo-billete')).map(el => el.value),
+        monedas: document.getElementById('conteo-totalMonedas').value,
+        usdRate: document.getElementById('usd-rate').value,
+        usdPzas: document.getElementById('conteo-usd').value
+      };
+      localStorage.setItem('corteBorrador', JSON.stringify(data));
+      
+      const ind = document.getElementById('indicador-guardado');
+      if(ind) {
+        ind.classList.remove('opacity-0');
+        clearTimeout(window.saveTimer);
+        window.saveTimer = setTimeout(() => ind.classList.add('opacity-0'), 2000);
+      }
+    }
+
+    function limpiarDatos() {
+      if(confirm('¿Estás seguro de borrar todos los datos del corte actual para empezar uno nuevo?')) {
+        localStorage.removeItem('corteBorrador');
+        location.reload();
+      }
+    }
+    
+    document.getElementById('btn-limpiar').addEventListener('click', limpiarDatos);
+
     // Cargar fecha actual
     document.getElementById('info-fecha').value = new Date().toISOString().split('T')[0];
 
@@ -508,6 +577,8 @@
         lblEstatusTitulo.innerText = "FALTANTE DE CAJA";
         lblEstatusSub.innerText = "Falta dinero en físico según el sistema.";
       }
+
+      guardarBorrador(); // Guarda todo automáticamente al haber un cambio
     }
 
     // --- STREAMING_CHUNK: Creando listeners dinámicos para formularios interactivos ---
@@ -1146,6 +1217,78 @@
     document.querySelectorAll('input, select').forEach(elem => {
       elem.addEventListener('input', calcular);
     });
+
+    // --- RESTAURAR BORRADOR ---
+    function restaurarBorrador() {
+      const guardado = localStorage.getItem('corteBorrador');
+      if (!guardado) return;
+      
+      try {
+        const data = JSON.parse(guardado);
+        
+        // Estáticos
+        if(data.fecha) document.getElementById('info-fecha').value = data.fecha;
+        if(data.sucursal) document.getElementById('info-sucursal').value = data.sucursal;
+        if(data.cajero) document.getElementById('info-cajero').value = data.cajero;
+        
+        if(data.tarjetas) {
+          document.getElementById('tarjetas-ticketManana').value = data.tarjetas.tManana || '';
+          document.getElementById('tarjetas-ticketTarde').value = data.tarjetas.tTarde || '';
+          document.getElementById('tarjetas-santander').value = data.tarjetas.santander || '';
+          document.getElementById('tarjetas-observacion').value = data.tarjetas.obs || '';
+        }
+        
+        if(data.efectivo) {
+          document.getElementById('efectivo-ventas').value = data.efectivo.ventas || '';
+          document.getElementById('efectivo-entradas').value = data.efectivo.entradas || '';
+          document.getElementById('efectivo-salidas').value = data.efectivo.salidas || '';
+        }
+        
+        document.getElementById('conteo-totalMonedas').value = data.monedas || '';
+        document.getElementById('usd-rate').value = data.usdRate || '15';
+        document.getElementById('conteo-usd').value = data.usdPzas || '';
+        
+        const conteos = document.querySelectorAll('.conteo-billete');
+        (data.conteo || []).forEach((val, idx) => {
+          if(conteos[idx]) conteos[idx].value = val;
+        });
+
+        // Dinámicos (Simulamos los clics de los botones para no reescribir lógica del DOM)
+        (data.terminalesExtra || []).forEach(term => {
+          document.getElementById('btn-add-terminal').click();
+          const lastId = terminalesExtra[terminalesExtra.length - 1].id;
+          document.getElementById(`name-term-${lastId}`).value = term.nombre;
+          document.getElementById(`extra-term-${lastId}`).value = term.monto;
+        });
+
+        (data.consumos || []).forEach(cons => {
+          document.getElementById('btn-add-consumo').click();
+          const lastId = ticketsConsumo[ticketsConsumo.length - 1].id;
+          document.getElementById(`desc-cons-${lastId}`).value = cons.desc;
+          document.getElementById(`extra-cons-${lastId}`).value = cons.monto;
+        });
+
+        (data.ajustes || []).forEach(aj => {
+          document.getElementById('btn-add-ajuste').click();
+          const lastId = ajustesExtra[ajustesExtra.length - 1].id;
+          document.getElementById(`ajuste-tipo-${lastId}`).value = aj.tipo;
+          document.getElementById(`ajuste-motivo-${lastId}`).value = aj.motivo;
+          document.getElementById(`ajuste-monto-${lastId}`).value = aj.monto;
+        });
+
+        (data.apartados || []).forEach(ap => {
+          document.getElementById('btn-add-apartado').click();
+          const lastId = apartadosExtra[apartadosExtra.length - 1].id;
+          document.getElementById(`apartado-motivo-${lastId}`).value = ap.motivo;
+          document.getElementById(`apartado-monto-${lastId}`).value = ap.monto;
+        });
+
+      } catch(e) {
+        console.error("Error restaurando borrador", e);
+      }
+    }
+
+    restaurarBorrador();
 
     // Iniciar el cálculo inmediato en el primer arranque
     calcular();
